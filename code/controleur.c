@@ -18,8 +18,6 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->v = v;
 	c->spinButtonNLib = gtk_hscale_new_with_range(0.0, MAX_LIB, 1.0);
     gtk_scale_set_draw_value(GTK_SCALE(c->spinButtonNLib), TRUE);
-   
-
 	c->entryExeName = gtk_entry_new_with_max_length(20);
 	c->entryLibName = empty_list();
 	c->entryMainName = gtk_entry_new_with_max_length(20);

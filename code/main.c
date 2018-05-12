@@ -106,14 +106,13 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 
 }
 
-
 void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = creer_fenetre();
 	gtk_window_set_title(GTK_WINDOW(window), "Information");
 	GtkWidget *box = gtk_vbox_new(TRUE, 5);
 	#ifdef __APPLE__
-	GtkWidget *label = gtk_label_new("\nAuto Makefile apple version\nCreated by Arthur Detrembleur\nLanguage used C \nCompany Appliaction\n10/05/18");
+	GtkWidget *label = gtk_label_new("\nAuto Makefile apple version (1.0)\nCreated by Arthur Detrembleur\nLanguage used C \nCompany Appliaction\n10/05/18");
 	GtkWidget *picture = gtk_image_new_from_file("../pictures/apple.png");
 	#else
 	GtkWidget *label = gtk_label_new("Auto Makefile linux version\nCreated by Arthur Detrembleur\nLanguage used C \nCompany Appliaction\n10/05/18");
