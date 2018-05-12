@@ -151,12 +151,16 @@ void affiche_help(GtkWidget *widget, gpointer pData){
 	GtkWidget *labelCompProj = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelCompProj), TRUE);
 
+	txt = g_locale_to_utf8("<b>[Custom CFLAGS]</b> Actives the possibility to custom the cflags", -1, NULL, NULL, NULL);
+	GtkWidget *cflags = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(cflags), TRUE);
+
 	txt = g_locale_to_utf8("<b>[Open With app]</b> Actives the possibility to open all the files with an app with 'make open'", -1, NULL, NULL, NULL);
 	GtkWidget *openApp = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(openApp), TRUE);
 	g_free(txt);
 	
-	fill_box(box, 7, lab, labelGtk, labelSeparatesLibs, labelCommuneLib, labelCheckFiles, labelCompProj, openApp);
+	fill_box(box, 8, lab, labelGtk, labelSeparatesLibs, labelCommuneLib, labelCheckFiles, labelCompProj, cflags, openApp);
 	gtk_container_add(GTK_CONTAINER(window), box);
 	gtk_widget_show_all(window);
 	gtk_main();

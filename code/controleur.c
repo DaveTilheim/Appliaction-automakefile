@@ -89,18 +89,30 @@ void destroy_fenetre(GtkWidget *widget, gpointer pData){
 }
 
 
+static int check_entry_space(char *entryText){
+
+	if(!strlen(entryText))
+		return 0;
+
+	for(int i = 0; i < strlen(entryText); i++)
+		if(entryText[i] != ' ')
+			return 1;
+
+	return 0;
+}
+
 static int check_entry_empty(Controleur_t *c){
 
-	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryExeName))))
+	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryExeName))))
 		return 1;
-	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
+	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
 		return 1;
-	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
+	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
 		return 1;
-	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
+	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
 		return 1;
 	for(int i = 0; i < length_list(c->entryLibName); i++)
-		if(!strlen(gtk_entry_get_text(GTK_ENTRY((GtkWidget *)get_element(c->entryLibName, i)))))
+		if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY((GtkWidget *)get_element(c->entryLibName, i)))))
 			return 1;
 	return 0;
 }
