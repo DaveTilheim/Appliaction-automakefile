@@ -63,7 +63,7 @@ List *add_last(List *L, void *data){
 List *add_at(List *L, int i, void *data){
 
 	if(i >= length_list(L) || i < 0){
-		printf("indice trop grand\n");
+		printf("index to big\n");
 		return NULL;
 	}
 
@@ -109,7 +109,7 @@ void print_list_int(List *L){
 
 	List *p = L;
 	if(is_empty(L)){
-		printf("La liste est vide -> rien à afficher\n");
+		printf("empty list -> nothing to show\n");
 		return;
 	}
 	while(p != NULL){
@@ -124,7 +124,7 @@ void print_list_int(List *L){
 void *get_element(List *L, int i){
 
 	if(i >= length_list(L) || i < 0){
-		printf("indice trop grand\n");
+		printf("index to big\n");
 		return NULL;
 	}
 
@@ -138,7 +138,7 @@ void *get_element(List *L, int i){
 void set_element(List *L, int i, void *data){
 
 	if(i >= length_list(L) || i < 0){
-		printf("indice trop grand\n");
+		printf("index to big\n");
 		return;
 	}
 
