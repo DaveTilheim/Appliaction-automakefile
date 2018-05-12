@@ -25,6 +25,7 @@ typedef struct{
 	GtkWidget *entryCflags;
 	GtkWidget *checkButtonChildMode;
 	GtkWidget *entryChild;
+	GtkWidget *buttonRapport;
 
 }Controleur_t;
 
@@ -53,6 +54,8 @@ void compressed_mode(GtkWidget *widget, gpointer pData);
 void custom_cflags_mode(GtkWidget *widget, gpointer pData);
 
 void child_mode(GtkWidget *widget, gpointer pData);
+
+void create_rapport(GtkWidget *widget, gpointer pData);
 
 
 

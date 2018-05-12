@@ -304,6 +304,8 @@ static int exist_files(Modele_t *m){
 	return 1;
 }
 
+
+
 int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *entryLibName, GtkWidget *entryApp){
 
 	strcpy(m->exe, (char *) gtk_entry_get_text(GTK_ENTRY(entryExeName)));
@@ -327,6 +329,33 @@ int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *en
 }
 
 
+void make_rapport(Modele_t *m){
+
+	FILE *frapport = fopen("rapport.txt", "w");
+	if(!frapport)
+		return;
+	fprintf(frapport, "RAPPORT AUTO-MAKEFILE\n\n");
+	fprintf(frapport, "exe -> %s\n", m->exe);
+	fprintf(frapport, "main -> %s\n", m->main);
+	fprintf(frapport, "%d lib(s)\n", m->tlib);
+	for(int i = 0; i < m->tlib; i++)
+		fprintf(frapport, "lib%d -> %s\n", i+1, m->lib[i]);
+	fprintf(frapport, "gtk mode -> %d\n", m->gtkMode);
+	fprintf(frapport, "sep. libs -> %d\n", m->libSepMode);
+	fprintf(frapport, "com. lib -> %d\n", m->libComMode);
+	fprintf(frapport, "check files mode -> %d\n", m->checkFileMode);
+	fprintf(frapport, "compress mode -> %d\n", m->compressedMode);
+	fprintf(frapport, "custom CFLAGS mode -> %d\n", m->customCflagsMode);
+	if(m->customCflagsMode)
+		fprintf(frapport, "CFLAGS -> %s\n", m->cflags);
+	fprintf(frapport, "child mode -> %d\n", m->childMode);
+	if(m->childMode)
+		fprintf(frapport, "child(ren) directories -> %s\n", m->child);
+	fprintf(frapport, "open app mode -> %d\n", m->openAppMode);
+	if(m->openAppMode)
+		fprintf(frapport, "App -> %s\n", m->app);
+	fprintf(frapport, "\nEND RAPPORT");
+}
 
 
 

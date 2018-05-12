@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonCustomCflagsMode, c->entryCflags,
 		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
-	fill_box(v->boxAll, 4, menu, v->hboxWidget, c->buttonConfirm, v->labelWarning);
+	fill_box(v->boxAll, 5, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning);
 
 	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);
 
@@ -61,6 +61,7 @@ int main(int argc, char **argv){
 	g_signal_connect(G_OBJECT(c->checkButtonCompressed), "clicked", G_CALLBACK(compressed_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonCustomCflagsMode), "clicked", G_CALLBACK(custom_cflags_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonChildMode), "clicked", G_CALLBACK(child_mode), c);
+	g_signal_connect(G_OBJECT(c->buttonRapport), "clicked", G_CALLBACK(create_rapport), c);
 
 	#ifdef __APPLE__
 	printf("\n[Auto Makefile mac edition is running]\n");

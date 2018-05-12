@@ -39,6 +39,8 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->entryCflags = gtk_entry_new_with_max_length(MAXC_CFLAGS);
 	c->checkButtonChildMode = gtk_check_button_new_with_label("Children");
 	c->entryChild = gtk_entry_new_with_max_length(MAXC_CHILD);
+	c->buttonRapport = gtk_button_new_with_label("create rapport");
+	gtk_widget_set_sensitive(c->buttonRapport, FALSE);
 
 	return c;
 }
@@ -128,6 +130,14 @@ static int check_entry_empty(Controleur_t *c){
 	return 0;
 }
 
+void create_rapport(GtkWidget *widget, gpointer pData){
+
+	Controleur_t *c =(Controleur_t *) pData;
+	make_rapport(c->m);
+	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[rapport created]");
+	gtk_widget_set_sensitive(c->buttonRapport, FALSE);
+}
+
 void make_makefile(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c = (Controleur_t *) pData;
@@ -149,6 +159,7 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 	}
 
 	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[makefile created]");
+	gtk_widget_set_sensitive(c->buttonRapport, TRUE);
 }
 
 void gtk_mode(GtkWidget *widget, gpointer pData){

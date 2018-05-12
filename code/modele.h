@@ -39,6 +39,7 @@ void active_mode(Modele_t *m, int mode);
 
 int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *entryLibName, GtkWidget *entryApp);
 
+void make_rapport(Modele_t *m);
 
 
 #endif
