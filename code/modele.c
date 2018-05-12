@@ -151,6 +151,7 @@ static void make_file(Modele_t *m){
 
 	if(m->gtkMode)
 		fprintf(makefile, "$(GTKFLAGS)");
+	fprintf(makefile, "\n\t@echo compilation success");
 	fprintf(makefile, "\n\n");
 	fprintf(makefile, "%s.o:%s.c\n", m->main, m->main);
 	fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
@@ -223,8 +224,6 @@ static void make_file(Modele_t *m){
 				fprintf(makefile, "%c", m->child[j]);
 			}
 			fprintf(makefile, " ;MAKE)\n");
-
-			
 		}
 	}
 
@@ -326,6 +325,7 @@ int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *en
 	return 1;
 
 }
+
 
 
 

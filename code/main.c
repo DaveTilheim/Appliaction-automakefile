@@ -68,6 +68,7 @@ int main(int argc, char **argv){
 	printf("\n[Auto Makefile linux edition is running]\n");
 	#endif
 
+
 	gtk_main();
 
 	destruction_mvc(m, v, c);

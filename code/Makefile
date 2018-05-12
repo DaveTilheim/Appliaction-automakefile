@@ -8,6 +8,7 @@ all:$(EXE)
 
 auto-makefile: main.o controleur.o vue.o modele.o list.o 
 	@$(LD) -o auto-makefile main.o controleur.o vue.o modele.o list.o $(GTKFLAGS)
+	@echo compilation success
 
 main.o:main.c
 	@$(CC) -c main.c -o main.o $(CFLAGS) $(GTKFLAGS)

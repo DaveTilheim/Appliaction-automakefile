@@ -66,3 +66,6 @@ void box_in_window_and_show(Vue_t *v){
 	fill_box(v->boxWidget[2], 1, (GtkWidget *) get_element(v->boxLib, 0));
 	gtk_widget_show_all(v->window);
 }
+
+
+
