@@ -21,6 +21,8 @@ typedef struct{
 	GtkWidget *entryOpenApp;
 	GtkWidget *buttonConfirm;
 	GtkWidget *checkButtonCompressed;
+	GtkWidget *checkButtonCustomCflagsMode;
+	GtkWidget *entryCflags;
 
 }Controleur_t;
 
@@ -45,6 +47,8 @@ void checkf_mode(GtkWidget *widget, gpointer pData);
 void open_app_mode(GtkWidget *widget, gpointer pData);
 
 void compressed_mode(GtkWidget *widget, gpointer pData);
+
+void custom_cflags_mode(GtkWidget *widget, gpointer pData);
 
 
 

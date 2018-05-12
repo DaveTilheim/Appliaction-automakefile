@@ -39,6 +39,6 @@ clean:
 
 ### gtk version -> gtk+2
 ### to install gtk with Homebrew [https://brew.sh/index_fr]
-### -> brew install gtk+
+### -> (brew install gtk+)
 ### made with auto-makefile mac edition
 ### autor Arthur Detrembleur (Appliaction company)

@@ -25,7 +25,7 @@ Vue_t *creer_vue(Modele_t *m){
 	v->boxLib = empty_list();
 	v->labelWarning = gtk_label_new("no error");
 	v->hboxWidget = gtk_hbox_new(FALSE, 0);
-	v->vboxWidget = gtk_vbox_new(FALSE , 0);
+	v->vboxWidget = gtk_vbox_new(FALSE , 13);
 
 	return v;
 }

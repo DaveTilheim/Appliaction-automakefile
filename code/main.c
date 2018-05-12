@@ -38,15 +38,17 @@ int main(int argc, char **argv){
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
 	fill_box(v->vboxWidget, 12, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
-		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonOpenWithApp, 
-		c->entryOpenApp, c->buttonConfirm, v->labelWarning);
+		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonCustomCflagsMode, c->entryCflags,
+		c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
-	fill_box(v->boxAll, 2, menu, v->hboxWidget);
+	fill_box(v->boxAll, 4, menu, v->hboxWidget, c->buttonConfirm, v->labelWarning);
 
 	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);
 
 	gtk_widget_show_all(v->window);
+
 	gtk_widget_hide(c->entryOpenApp);
+	gtk_widget_hide(c->entryCflags);
 
 	g_signal_connect(G_OBJECT(c->spinButtonNLib), "value-changed", G_CALLBACK(spin_add_library_entry), c);
 	g_signal_connect(G_OBJECT(c->buttonConfirm), "clicked", G_CALLBACK(make_makefile), c);
@@ -56,6 +58,7 @@ int main(int argc, char **argv){
 	g_signal_connect(G_OBJECT(c->checkButtonCheckFileMode), "clicked", G_CALLBACK(checkf_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonOpenWithApp), "clicked", G_CALLBACK(open_app_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonCompressed), "clicked", G_CALLBACK(compressed_mode), c);
+	g_signal_connect(G_OBJECT(c->checkButtonCustomCflagsMode), "clicked", G_CALLBACK(custom_cflags_mode), c);
 
 	#ifdef __APPLE__
 	printf("\n[Auto Makefile mac edition is running]\n");

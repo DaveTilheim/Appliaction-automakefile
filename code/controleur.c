@@ -33,6 +33,8 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->entryOpenApp = gtk_entry_new_with_max_length(20);
 	c->buttonConfirm = gtk_button_new_with_label("[Make]");
 	c->checkButtonCompressed = gtk_check_button_new_with_label("Compress project");
+	c->checkButtonCustomCflagsMode = gtk_check_button_new_with_label("Custom CFLAGS");
+	c->entryCflags = gtk_entry_new_with_max_length(MAXC_CFLAGS);
 
 	return c;
 }
@@ -70,6 +72,11 @@ void spin_add_library_entry(GtkWidget *widget, gpointer pData){
 		gtk_widget_show(c->entryOpenApp);
 	else
 		gtk_widget_hide(c->entryOpenApp);
+
+	if(c->m->customCflagsMode)
+		gtk_widget_show(c->entryCflags);
+	else
+		gtk_widget_hide(c->entryCflags);
 	
 
 }
@@ -88,6 +95,10 @@ static int check_entry_empty(Controleur_t *c){
 		return 1;
 	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
 		return 1;
+	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
+		return 1;
+	if(!strlen(gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
+		return 1;
 	for(int i = 0; i < length_list(c->entryLibName); i++)
 		if(!strlen(gtk_entry_get_text(GTK_ENTRY((GtkWidget *)get_element(c->entryLibName, i)))))
 			return 1;
@@ -104,6 +115,8 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 
 	if(c->m->openAppMode)
 		strcpy(c->m->app, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp)));
+	if(c->m->customCflagsMode)
+		strcpy(c->m->cflags, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryCflags)));
 	
 	if(!run(c->m, c->entryExeName, c->entryMainName, c->entryLibName, c->entryOpenApp)){
 		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[file not found]");
@@ -160,6 +173,16 @@ void compressed_mode(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 6);
+}
+
+void custom_cflags_mode(GtkWidget *widget, gpointer pData){
+
+	Controleur_t *c = (Controleur_t *) pData;
+	active_mode(c->m, 7);
+	if(c->m->customCflagsMode)
+		gtk_widget_show(c->entryCflags);
+	else
+		gtk_widget_hide(c->entryCflags);
 }
 
 

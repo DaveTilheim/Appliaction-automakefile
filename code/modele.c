@@ -19,6 +19,7 @@ Modele_t *creer_modele(void){
 	m->openAppMode = 0;
 	m->compressedMode = 0;
 	m->lib = NULL;
+	m->customCflagsMode = 0;
 
 	return m;
 }
@@ -78,6 +79,13 @@ void active_mode(Modele_t *m, int mode){
 			if(m->compressedMode == 2)
 				m->compressedMode = 0;
 			break;
+
+		case 7:
+
+			m->customCflagsMode++;
+			if(m->customCflagsMode == 2)
+				m->customCflagsMode = 0;
+			break;
 	}
 }
 
@@ -104,7 +112,10 @@ static void make_file(Modele_t *m){
 		abort();
 
 	fprintf(makefile, "CC=gcc\nLD=gcc\n");
-	fprintf(makefile, "CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes\n");
+	if(m->customCflagsMode)
+		fprintf(makefile, "CFLAGS=%s\n", m->cflags);
+	else
+		fprintf(makefile, "CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes\n");
 	if(m->gtkMode) 
 		fprintf(makefile, "GTKFLAGS=`pkg-config --cflags --libs gtk+-2.0`\n");
 	fprintf(makefile, "EXE=%s\n\nall:$(EXE)\n\n", m->exe);
