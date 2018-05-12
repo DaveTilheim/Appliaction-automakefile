@@ -20,6 +20,7 @@ Modele_t *creer_modele(void){
 	m->compressedMode = 0;
 	m->lib = NULL;
 	m->customCflagsMode = 0;
+	m->childMode = 0;
 
 	return m;
 }
@@ -85,6 +86,13 @@ void active_mode(Modele_t *m, int mode){
 			m->customCflagsMode++;
 			if(m->customCflagsMode == 2)
 				m->customCflagsMode = 0;
+			break;
+
+		case 8:
+
+			m->childMode++;
+			if(m->childMode == 2)
+				m->childMode = 0;
 			break;
 	}
 }
@@ -176,6 +184,47 @@ static void make_file(Modele_t *m){
 				fprintf(makefile, "%s.o ", m->lib[i]);
 			fprintf(makefile, "\n\tranlib libmulti.a\n\n");
 			fprintf(makefile, "\n\n");
+		}
+	}
+
+	if(m->childMode){
+		fprintf(makefile, ".PHONY: ");
+		for(int i = 0; i < strlen(m->child); i++){
+			if(m->child[i] != ';')
+				fprintf(makefile, "%c", m->child[i]);
+			else
+				fprintf(makefile, " ");
+		}
+		fprintf(makefile, "\n\n");
+		
+		unsigned int nchild = 1;
+		int savePos = 0;
+		int savePos2 = 0;
+		for(int i = 0; i < strlen(m->child)-1; i++)
+			if(m->child[i] == ';')
+				nchild++;
+		if(strlen(m->child)-1 != ';'){
+			m->child[strlen(m->child)] = ';';
+			m->child[strlen(m->child)+1] = '\0';
+		}
+
+		for(int i = 0; i < nchild; i++){
+			int j;
+			if(i == 0)
+				savePos = savePos2;
+			else
+				savePos = ++savePos2;
+			for(j = savePos; m->child[j] != ';'; j++){
+				fprintf(makefile, "%c", m->child[j]);
+			}
+			savePos2 = j;
+			fprintf(makefile, ":\n\t(cd ");
+			for(j = savePos; m->child[j] != ';'; j++){
+				fprintf(makefile, "%c", m->child[j]);
+			}
+			fprintf(makefile, " ;MAKE)\n");
+
+			
 		}
 	}
 
@@ -271,6 +320,7 @@ int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *en
 	if(m->openAppMode){
 		strcpy(m->app, (char *) gtk_entry_get_text(GTK_ENTRY(entryApp)));
 	}
+	
 	make_file(m);
 
 	return 1;

@@ -35,6 +35,8 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->checkButtonCompressed = gtk_check_button_new_with_label("Compress project");
 	c->checkButtonCustomCflagsMode = gtk_check_button_new_with_label("Custom CFLAGS");
 	c->entryCflags = gtk_entry_new_with_max_length(MAXC_CFLAGS);
+	c->checkButtonChildMode = gtk_check_button_new_with_label("Children");
+	c->entryChild = gtk_entry_new_with_max_length(MAXC_CHILD);
 
 	return c;
 }
@@ -77,6 +79,11 @@ void spin_add_library_entry(GtkWidget *widget, gpointer pData){
 		gtk_widget_show(c->entryCflags);
 	else
 		gtk_widget_hide(c->entryCflags);
+
+	if(c->m->childMode)
+		gtk_widget_show(c->entryChild);
+	else
+		gtk_widget_hide(c->entryChild);
 	
 
 }
@@ -95,24 +102,26 @@ static int check_entry_space(char *entryText){
 		return 0;
 
 	for(int i = 0; i < strlen(entryText); i++)
-		if(entryText[i] != ' ')
-			return 1;
+		if(entryText[i] == ' ')
+			return 0;
 
-	return 0;
+	return 1;
 }
 
 static int check_entry_empty(Controleur_t *c){
 
-	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryExeName))))
+	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryExeName))))
 		return 1;
-	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
+	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
 		return 1;
-	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
+	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
 		return 1;
-	if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
+	if(!strlen((char *)gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
+		return 1;
+	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryChild))) && c->m->childMode)
 		return 1;
 	for(int i = 0; i < length_list(c->entryLibName); i++)
-		if(!check_entry_space(gtk_entry_get_text(GTK_ENTRY((GtkWidget *)get_element(c->entryLibName, i)))))
+		if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY((GtkWidget *)get_element(c->entryLibName, i)))))
 			return 1;
 	return 0;
 }
@@ -121,7 +130,7 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c = (Controleur_t *) pData;
 	if(check_entry_empty(c)){
-		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[empty entry]");
+		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[empty entry or spaces detected]");
 		return;
 	}
 
@@ -129,6 +138,8 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 		strcpy(c->m->app, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp)));
 	if(c->m->customCflagsMode)
 		strcpy(c->m->cflags, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryCflags)));
+	if(c->m->childMode)
+		strcpy(c->m->child, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryChild)));//in run
 	
 	if(!run(c->m, c->entryExeName, c->entryMainName, c->entryLibName, c->entryOpenApp)){
 		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[file not found]");
@@ -195,6 +206,16 @@ void custom_cflags_mode(GtkWidget *widget, gpointer pData){
 		gtk_widget_show(c->entryCflags);
 	else
 		gtk_widget_hide(c->entryCflags);
+}
+
+void child_mode(GtkWidget *widget, gpointer pData){
+
+	Controleur_t *c = (Controleur_t *) pData;
+	active_mode(c->m, 8);
+	if(c->m->childMode)
+		gtk_widget_show(c->entryChild);
+	else
+		gtk_widget_hide(c->entryChild);
 }
 
 

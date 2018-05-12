@@ -37,9 +37,9 @@ int main(int argc, char **argv){
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
-	fill_box(v->vboxWidget, 12, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
+	fill_box(v->vboxWidget, 14, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
 		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonCustomCflagsMode, c->entryCflags,
-		c->checkButtonOpenWithApp, c->entryOpenApp);
+		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
 	fill_box(v->boxAll, 4, menu, v->hboxWidget, c->buttonConfirm, v->labelWarning);
 
@@ -49,6 +49,7 @@ int main(int argc, char **argv){
 
 	gtk_widget_hide(c->entryOpenApp);
 	gtk_widget_hide(c->entryCflags);
+	gtk_widget_hide(c->entryChild);
 
 	g_signal_connect(G_OBJECT(c->spinButtonNLib), "value-changed", G_CALLBACK(spin_add_library_entry), c);
 	g_signal_connect(G_OBJECT(c->buttonConfirm), "clicked", G_CALLBACK(make_makefile), c);
@@ -59,6 +60,7 @@ int main(int argc, char **argv){
 	g_signal_connect(G_OBJECT(c->checkButtonOpenWithApp), "clicked", G_CALLBACK(open_app_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonCompressed), "clicked", G_CALLBACK(compressed_mode), c);
 	g_signal_connect(G_OBJECT(c->checkButtonCustomCflagsMode), "clicked", G_CALLBACK(custom_cflags_mode), c);
+	g_signal_connect(G_OBJECT(c->checkButtonChildMode), "clicked", G_CALLBACK(child_mode), c);
 
 	#ifdef __APPLE__
 	printf("\n[Auto Makefile mac edition is running]\n");
@@ -151,16 +153,20 @@ void affiche_help(GtkWidget *widget, gpointer pData){
 	GtkWidget *labelCompProj = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelCompProj), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Custom CFLAGS]</b> Actives the possibility to custom the cflags", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("<b>[Custom CFLAGS]</b> Actives the possibility to custom the cflags\ndefault cflags: --std=c99 --pedantic -Wall -W -Wmissing-prototypes", -1, NULL, NULL, NULL);
 	GtkWidget *cflags = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(cflags), TRUE);
+
+	txt = g_locale_to_utf8("<b>[Children]</b> Actives the possibility to indicate to the program the differents childs directories[separe with ';']", -1, NULL, NULL, NULL);
+	GtkWidget *child = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(child), TRUE);
 
 	txt = g_locale_to_utf8("<b>[Open With app]</b> Actives the possibility to open all the files with an app with 'make open'", -1, NULL, NULL, NULL);
 	GtkWidget *openApp = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(openApp), TRUE);
 	g_free(txt);
 	
-	fill_box(box, 8, lab, labelGtk, labelSeparatesLibs, labelCommuneLib, labelCheckFiles, labelCompProj, cflags, openApp);
+	fill_box(box, 9, lab, labelGtk, labelSeparatesLibs, labelCommuneLib, labelCheckFiles, labelCompProj, cflags, child, openApp);
 	gtk_container_add(GTK_CONTAINER(window), box);
 	gtk_widget_show_all(window);
 	gtk_main();

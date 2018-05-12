@@ -8,6 +8,7 @@
 #define MAX_LIB 10
 #define MIN_LIB 0
 #define MAXC_CFLAGS 50
+#define MAXC_CHILD 51
 
 typedef struct{
 
@@ -24,6 +25,8 @@ typedef struct{
 	int compressedMode;
 	int customCflagsMode;
 	char cflags[MAXC_CFLAGS+1];
+	int childMode;
+	char child[MAXC_CHILD+1];
 
 
 }Modele_t;
