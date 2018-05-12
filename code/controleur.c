@@ -9,8 +9,6 @@
 
 
 
-
-
 Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 
 	Controleur_t *c = malloc(sizeof(Controleur_t));
@@ -230,8 +228,6 @@ void child_mode(GtkWidget *widget, gpointer pData){
 	else
 		gtk_widget_hide(c->entryChild);
 }
-
-
 
 
 

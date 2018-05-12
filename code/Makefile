@@ -1,6 +1,6 @@
 CC=gcc
 LD=gcc
-CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes
+CFLAGS= 
 GTKFLAGS=`pkg-config --cflags --libs gtk+-2.0`
 EXE=auto-makefile
 

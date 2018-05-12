@@ -1,0 +1,21 @@
+RAPPORT AUTO-MAKEFILE
+
+exe -> auto-makefile
+main -> main
+4 lib(s)
+lib1 -> controleur
+lib2 -> vue
+lib3 -> modele
+lib4 -> list
+gtk mode -> 1
+sep. libs -> 0
+com. lib -> 0
+check files mode -> 1
+compress mode -> 1
+custom CFLAGS mode -> 1
+CFLAGS ->  
+child mode -> 0
+open app mode -> 1
+App -> SublimeText
+
+END RAPPORT

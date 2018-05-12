@@ -18,7 +18,8 @@ void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
 
 
 int main(int argc, char **argv){
-
+	//#undef __APPLE__
+	//to test the linux edition on mac
 	#ifdef _WIN32
 	fprintf(stderr, "WARNING [auto-makefile works only on Mac and Linux]\n");
 	return -1;
@@ -69,7 +70,6 @@ int main(int argc, char **argv){
 	printf("\n[Auto Makefile linux edition is running]\n");
 	#endif
 
-
 	gtk_main();
 
 	destruction_mvc(m, v, c);
@@ -84,7 +84,6 @@ int main(int argc, char **argv){
 }
 
 
-
 GtkWidget *creer_fenetre(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -92,7 +91,6 @@ GtkWidget *creer_fenetre(void){
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(destroy_fenetre), NULL);
 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	
-
 	return window;
 }
 
@@ -107,6 +105,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	va_end(list_);
 
 }
+
 
 void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 
