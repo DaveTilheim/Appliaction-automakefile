@@ -37,9 +37,11 @@ int main(int argc, char **argv){
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
-	fill_box(v->boxAll, 14, menu, v->boxWidget[0], v->boxWidget[1], v->boxWidget[2], v->boxWidget[3], 
-		c->checkButtonGtkMode, c->checkButtonLibSeparateMode, c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,
-		c->checkButtonCompressed, c->checkButtonOpenWithApp, c->entryOpenApp, c->buttonConfirm, v->labelWarning);
+	fill_box(v->vboxWidget, 12, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
+		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonOpenWithApp, 
+		c->entryOpenApp, c->buttonConfirm, v->labelWarning);
+	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
+	fill_box(v->boxAll, 2, menu, v->hboxWidget);
 
 	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);
 

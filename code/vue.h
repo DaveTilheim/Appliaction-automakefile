@@ -11,6 +11,8 @@ typedef struct{
 	Modele_t *m;
 	GtkWidget *window;
 	GtkWidget *boxAll;
+	GtkWidget *hboxWidget;
+	GtkWidget *vboxWidget;
 	GtkWidget *boxWidget[N_BOX_WIDGET];
 	List *boxLib;
 	GtkWidget *labelEntryExeName;
