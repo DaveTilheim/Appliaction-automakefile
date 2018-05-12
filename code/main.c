@@ -6,15 +6,15 @@
 #include "modele.h"
 
 
-void affiche_help(GtkWidget *widget, gpointer pData);
+static void affiche_help(GtkWidget *widget, gpointer pData);
 
-GtkWidget *creer_fenetre(void);
+static GtkWidget *creer_fenetre(void);
 
-GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c);
+static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c);
 
 void fill_box(GtkWidget *box, int Nwg, ...);
 
-void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
+static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
 
 
 int main(int argc, char **argv){
@@ -99,7 +99,7 @@ int main(int argc, char **argv){
 }
 
 
-GtkWidget *creer_fenetre(void){
+static GtkWidget *creer_fenetre(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "Auto Makefile");
@@ -121,7 +121,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 
 }
 
-void affiche_a_porpos(GtkWidget *widget, gpointer pData){
+static void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = creer_fenetre();
 	gtk_window_set_title(GTK_WINDOW(window), "Information");
@@ -139,7 +139,7 @@ void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 	gtk_main();
 }
 
-void affiche_help(GtkWidget *widget, gpointer pData){
+static void affiche_help(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = creer_fenetre();
 	gtk_window_set_title(GTK_WINDOW(window), "Help (modes)");
@@ -188,7 +188,7 @@ void affiche_help(GtkWidget *widget, gpointer pData){
 
 }
 
-GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
+static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
 
 	GtkWidget *barre_menu = gtk_menu_bar_new();
 	GtkAccelGroup *accelerateur = NULL;
@@ -233,7 +233,7 @@ GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
 
 
 
-void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c){
+static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c){
 
 	destroy_controleur(c);
 	destroy_vue(v);
