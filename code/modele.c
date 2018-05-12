@@ -134,7 +134,7 @@ static void make_file(Modele_t *m){
 	for(int i = 0; i < m->tlib; i++)
 		fprintf(makefile, "%s.o ", m->lib[i]);
 	fprintf(makefile, "\n");
-	fprintf(makefile, "\t$(LD) -o %s %s.o ", m->exe, m->main);
+	fprintf(makefile, "\t@$(LD) -o %s %s.o ", m->exe, m->main);
 
 	if(m->libSepMode){
 		fprintf(makefile, "-L. ");
@@ -153,7 +153,7 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "$(GTKFLAGS)");
 	fprintf(makefile, "\n\n");
 	fprintf(makefile, "%s.o:%s.c\n", m->main, m->main);
-	fprintf(makefile, "\t$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
+	fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
 	if(m->gtkMode)
 		fprintf(makefile, "$(GTKFLAGS)");
 	fprintf(makefile, "\n\n");
@@ -161,7 +161,7 @@ static void make_file(Modele_t *m){
 	if(!m->libComMode && !m->libSepMode){
 		for(int i = 0; i < m->tlib; i++){
 			fprintf(makefile, "%s.o: %s.h %s.c\n", m->lib[i], m->lib[i], m->lib[i]);
-			fprintf(makefile, "\t$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
+			fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
 			if(m->gtkMode)
 				fprintf(makefile, "$(GTKFLAGS)");
 			fprintf(makefile, "\n\n");
@@ -171,18 +171,18 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "lib: \n");
 		if(m->libSepMode){
 			for(int i = 0; i < m->tlib; i++){
-				fprintf(makefile, "\t$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
-				fprintf(makefile, "\tar ruv lib%s.a %s.o\n", m->lib[i], m->lib[i]);
-				fprintf(makefile, "\tranlib lib%s.a\n\n", m->lib[i]);
+				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				fprintf(makefile, "\t@ar ruv lib%s.a %s.o\n", m->lib[i], m->lib[i]);
+				fprintf(makefile, "\t@ranlib lib%s.a\n\n", m->lib[i]);
 			}
 			fprintf(makefile, "\n\n");;
 		}else if(m->libComMode){
 			for(int i = 0; i < m->tlib; i++)
-				fprintf(makefile, "\t$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
-			fprintf(makefile, "\tar ruv libmulti.a ");
+				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+			fprintf(makefile, "\t@ar ruv libmulti.a ");
 			for(int i = 0; i < m->tlib; i++)
 				fprintf(makefile, "%s.o ", m->lib[i]);
-			fprintf(makefile, "\n\tranlib libmulti.a\n\n");
+			fprintf(makefile, "\n\t@ranlib libmulti.a\n\n");
 			fprintf(makefile, "\n\n");
 		}
 	}
@@ -218,7 +218,7 @@ static void make_file(Modele_t *m){
 				fprintf(makefile, "%c", m->child[j]);
 			}
 			savePos2 = j;
-			fprintf(makefile, ":\n\t(cd ");
+			fprintf(makefile, ":\n\t@(cd ");
 			for(j = savePos; m->child[j] != ';'; j++){
 				fprintf(makefile, "%c", m->child[j]);
 			}
@@ -231,9 +231,9 @@ static void make_file(Modele_t *m){
 	if(m->openAppMode){
 		fprintf(makefile, "open:\n");
 		#ifdef __APPLE__
-		fprintf(makefile, "\topen -a %s ", m->app);
+		fprintf(makefile, "\t@open -a %s ", m->app);
 		#else
-		fprintf(makefile, "\t%s ", m->app);
+		fprintf(makefile, "\t@%s ", m->app);
 		#endif
 		for(int i = 0; i < m->tlib; i++){
 			fprintf(makefile, "%s.c %s.h ", m->lib[i], m->lib[i]);
@@ -247,7 +247,7 @@ static void make_file(Modele_t *m){
 
 	if(m->compressedMode){
 		fprintf(makefile, "tar:\n");
-		fprintf(makefile, "\ttar -czf %s.tar.gz ", m->exe);
+		fprintf(makefile, "\t@tar -czf %s.tar.gz ", m->exe);
 		
 		for(int i = 0; i < m->tlib; i++)
 			fprintf(makefile, "%s.c %s.h ", m->lib[i], m->lib[i]);
@@ -256,7 +256,7 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "\n\n");
 	}
 	fprintf(makefile, "clean:\n");
-	fprintf(makefile, "\trm -f *.o\n\trm -f %s", m->exe);
+	fprintf(makefile, "\t@rm -f *.o\n\t@rm -f %s", m->exe);
 
 	fprintf(makefile, "\n\n\n\n");
 	fprintf(makefile, "### gtk version -> gtk+2\n");

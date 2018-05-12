@@ -133,35 +133,35 @@ void affiche_help(GtkWidget *widget, gpointer pData){
 	txt = g_locale_to_utf8("<b>HELP</b>", -1, NULL, NULL, NULL);
 	GtkWidget *lab = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(lab), TRUE);
-	txt = g_locale_to_utf8("<b>[Gtk+2]</b> Actives GTKFLAGS (`pkg-config --cflags --libs gtk+-2.0`)\n\n", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Gtk+2]</b> Actives GTKFLAGS (`pkg-config --cflags --libs gtk+-2.0`)   \n\n", -1, NULL, NULL, NULL);
 	GtkWidget *labelGtk = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelGtk), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Sep. libs]</b> Actives the possibility to create dynamics separates libs\n\n", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Sep. libs]</b> Actives the possibility to create dynamics separates libs   \n\n", -1, NULL, NULL, NULL);
 	GtkWidget *labelSeparatesLibs = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelSeparatesLibs), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Com. lib]</b> Actives the possibility to create a dynamic commune lib composed of all the libs\n\n", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Com. lib]</b> Actives the possibility to create a dynamic commune lib composed of all the libs\n\n   ", -1, NULL, NULL, NULL);
 	GtkWidget *labelCommuneLib = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelCommuneLib), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Check Files]</b> Actives the verification of the existence of the differents files\n\n", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Check Files]</b> Actives the verification of the existence of the differents files\n\n   ", -1, NULL, NULL, NULL);
 	GtkWidget *labelCheckFiles = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelCheckFiles), TRUE);
 	
-	txt = g_locale_to_utf8("<b>[Compr. project]</b> Actives the possibility to compress all the files with 'make tar'\n\n", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Compr. project]</b> Actives the possibility to compress all the files with 'make tar'\n\n   ", -1, NULL, NULL, NULL);
 	GtkWidget *labelCompProj = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(labelCompProj), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Custom CFLAGS]</b> Actives the possibility to custom the cflags\ndefault cflags: --std=c99 --pedantic -Wall -W -Wmissing-prototypes", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Custom CFLAGS]</b> Actives the possibility to custom the cflags\ndefault cflags: --std=c99 --pedantic -Wall -W -Wmissing-prototypes   \n\n", -1, NULL, NULL, NULL);
 	GtkWidget *cflags = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(cflags), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Children]</b> Actives the possibility to indicate to the program the differents childs directories[separe with ';']", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Children]</b> Actives the possibility to indicate to the program the differents childs directories[separe with <b>';'</b>]   \n\n", -1, NULL, NULL, NULL);
 	GtkWidget *child = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(child), TRUE);
 
-	txt = g_locale_to_utf8("<b>[Open With app]</b> Actives the possibility to open all the files with an app with 'make open'", -1, NULL, NULL, NULL);
+	txt = g_locale_to_utf8("   <b>[Open With app]</b> Actives the possibility to open all the files with an app with 'make open'\n\n", -1, NULL, NULL, NULL);
 	GtkWidget *openApp = gtk_label_new(txt);
 	gtk_label_set_use_markup(GTK_LABEL(openApp), TRUE);
 	g_free(txt);

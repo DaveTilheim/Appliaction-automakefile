@@ -5,7 +5,7 @@
 #define MAXC 20
 #include "list.h"
 
-#define MAX_LIB 10
+#define MAX_LIB 15
 #define MIN_LIB 0
 #define MAXC_CFLAGS 50
 #define MAXC_CHILD 51

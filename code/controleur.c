@@ -18,7 +18,7 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 		return NULL;
 	c->m = m;
 	c->v = v;
-	c->spinButtonNLib = gtk_hscale_new_with_range(0.0, 10.0, 1.0);
+	c->spinButtonNLib = gtk_hscale_new_with_range(0.0, MAX_LIB, 1.0);
     gtk_scale_set_draw_value(GTK_SCALE(c->spinButtonNLib), TRUE);
    
 
