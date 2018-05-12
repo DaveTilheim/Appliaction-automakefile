@@ -141,7 +141,7 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 	if(c->m->customCflagsMode)
 		strcpy(c->m->cflags, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryCflags)));
 	if(c->m->childMode)
-		strcpy(c->m->child, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryChild)));//in run
+		strcpy(c->m->child, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryChild)));
 	
 	if(!run(c->m, c->entryExeName, c->entryMainName, c->entryLibName, c->entryOpenApp)){
 		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[file not found]");
@@ -149,7 +149,6 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 	}
 
 	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[makefile created]");
-	
 }
 
 void gtk_mode(GtkWidget *widget, gpointer pData){

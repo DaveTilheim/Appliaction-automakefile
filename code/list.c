@@ -31,7 +31,7 @@ unsigned length_list(List *L){
 
 List *create_cell(void *data){
 
-	List *cell = malloc(sizeof(void *));
+	List *cell = malloc(sizeof(List));
 	if(!cell)
 		return empty_list();
 
