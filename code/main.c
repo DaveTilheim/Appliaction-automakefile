@@ -1,3 +1,8 @@
+/**
+@file main.c
+@author Arthur Detrembleur (DaveTilheim)
+@version 1.0
+*/
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdarg.h>
@@ -6,13 +11,41 @@
 #include "controleur.h"
 #include "modele.h"
 
+/**
+@fn static void print_help(GtkWidget *widget, gpointer pData)
+@brief print a window who describes all the differents mode of the program
+@param widget unused
+@param pData unused
+@post window printed
+*/
+static void print_help(GtkWidget *widget, gpointer pData);
 
-static void affiche_help(GtkWidget *widget, gpointer pData);
+/**
+@fn static GtkWidget *create_window(void)
+@brief create a basic window
+@post window created
+@return a GtkWidget
+*/
+static GtkWidget *create_window(void);
 
-static GtkWidget *creer_fenetre(void);
+/**
+@fn static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c)
+@brief create a menu
+@param window the main window
+@param c the controler
+@post menu created
+@return a GtkWidget
+*/
+static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c);
 
-static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c);
-
+/**
+@fn void fill_box(GtkWidget *box, int Nwg, ...)
+@brief fill a box with widgets
+@param box a GtkWidget
+@param Nwg the number of widgets to fill in box
+@param ... the widgets
+@post box fills
+*/
 void fill_box(GtkWidget *box, int Nwg, ...);
 
 static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
@@ -47,10 +80,10 @@ int main(int argc, char **argv){
 		return -1;
 	}
 
-	v->window = creer_fenetre();
+	v->window = create_window();
 	gtk_window_set_default_size(GTK_WINDOW(v->window), 800, 800);
 	v->boxAll = gtk_vbox_new(FALSE, 5);
-	GtkWidget *menu = creer_menu(v->window, c);
+	GtkWidget *menu = create_menu(v->window, c);
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
@@ -100,7 +133,7 @@ int main(int argc, char **argv){
 }
 
 
-static GtkWidget *creer_fenetre(void){
+static GtkWidget *create_window(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "Auto Makefile");
@@ -126,7 +159,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 
 static void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 
-	GtkWidget *window = creer_fenetre();
+	GtkWidget *window = create_window();
 	gtk_window_set_title(GTK_WINDOW(window), "Information");
 	GtkWidget *box = gtk_vbox_new(TRUE, 5);
 	#ifdef __APPLE__
@@ -142,9 +175,9 @@ static void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 	gtk_main();
 }
 
-static void affiche_help(GtkWidget *widget, gpointer pData){
+static void print_help(GtkWidget *widget, gpointer pData){
 
-	GtkWidget *window = creer_fenetre();
+	GtkWidget *window = create_window();
 	gtk_window_set_title(GTK_WINDOW(window), "Help (modes)");
 	GtkWidget *box = gtk_vbox_new(TRUE, 5);
 	gchar *txt;
@@ -191,9 +224,9 @@ static void affiche_help(GtkWidget *widget, gpointer pData){
 
 }
 
-static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
+static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
 
-	assert(c != NULL);
+	assert(c != NULL && window != NULL);
 
 	GtkWidget *barre_menu = gtk_menu_bar_new();
 	GtkAccelGroup *accelerateur = NULL;
@@ -230,7 +263,7 @@ static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
 
 	g_signal_connect(G_OBJECT(item_quitter), "activate", G_CALLBACK(destroy_fenetre), NULL);
 	g_signal_connect(G_OBJECT(item_a_propos), "activate", G_CALLBACK(affiche_a_porpos), NULL);
-	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(affiche_help), NULL);
+	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(print_help), NULL);
 
 	
 	return barre_menu;
