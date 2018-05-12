@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <assert.h>
 #include "modele.h"
 #include "vue.h"
 #include "controleur.h"
@@ -10,6 +10,8 @@
 
 
 Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
+
+	assert(v != NULL && m != NULL);
 
 	Controleur_t *c = malloc(sizeof(Controleur_t));
 	if(c == NULL)
@@ -43,6 +45,8 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 
 void destroy_controleur(Controleur_t *c){
 
+	assert(c != NULL);
+
 	c->entryLibName = remove_list(c->entryLibName);
 	free(c);
 }
@@ -50,6 +54,8 @@ void destroy_controleur(Controleur_t *c){
 extern void fill_box(GtkWidget *box, int Nwg, ...);
 
 void spin_add_library_entry(GtkWidget *widget, gpointer pData){
+
+	assert(pData != NULL);
 
 	Controleur_t *c = (Controleur_t *) pData;
 
@@ -98,6 +104,8 @@ void destroy_fenetre(GtkWidget *widget, gpointer pData){
 
 static int check_entry_space(char *entryText){
 
+	assert(entryText != NULL);
+
 	if(!strlen(entryText))
 		return 0;
 
@@ -109,6 +117,8 @@ static int check_entry_space(char *entryText){
 }
 
 static int check_entry_empty(Controleur_t *c){
+
+	assert(c != NULL);
 
 	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryExeName))))
 		return 1;
@@ -128,6 +138,8 @@ static int check_entry_empty(Controleur_t *c){
 
 void create_rapport(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+
 	Controleur_t *c =(Controleur_t *) pData;
 	make_rapport(c->m);
 	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[rapport created]");
@@ -135,6 +147,8 @@ void create_rapport(GtkWidget *widget, gpointer pData){
 }
 
 void make_makefile(GtkWidget *widget, gpointer pData){
+
+	assert(pData != NULL);
 
 	Controleur_t *c = (Controleur_t *) pData;
 	if(check_entry_empty(c)){
@@ -160,12 +174,16 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 
 void gtk_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 1);
 }
 
 void libs_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	
 	active_mode(c->m, 2);
@@ -177,6 +195,8 @@ void libs_mode(GtkWidget *widget, gpointer pData){
 
 void libc_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 3);
 	if(c->m->libComMode)
@@ -187,12 +207,16 @@ void libc_mode(GtkWidget *widget, gpointer pData){
 
 void checkf_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 4);
 }
 
 void open_app_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 5);
 	if(c->m->openAppMode)
@@ -203,12 +227,16 @@ void open_app_mode(GtkWidget *widget, gpointer pData){
 
 void compressed_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 6);
 }
 
 void custom_cflags_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 7);
 	if(c->m->customCflagsMode)
@@ -219,6 +247,8 @@ void custom_cflags_mode(GtkWidget *widget, gpointer pData){
 
 void child_mode(GtkWidget *widget, gpointer pData){
 
+	assert(pData != NULL);
+	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 8);
 	if(c->m->childMode)

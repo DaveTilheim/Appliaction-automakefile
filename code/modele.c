@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include <time.h>
 #include "list.h"
 
@@ -27,6 +28,8 @@ Modele_t *creer_modele(void){
 
 void destroy_modele(Modele_t *m){
 	
+	assert(m != NULL);
+
 	if(m->lib != NULL){
 		for(int i = 0; i < m->tlib; i++)
 			free(m->lib[i]);
@@ -36,6 +39,8 @@ void destroy_modele(Modele_t *m){
 }
 
 void active_mode(Modele_t *m, int mode){
+
+	assert(m != NULL && mode > 0 && mode <= N_MODE);
 
 	switch(mode){
 
@@ -94,10 +99,14 @@ void active_mode(Modele_t *m, int mode){
 			if(m->childMode == 2)
 				m->childMode = 0;
 			break;
+
+		default:
+			fprintf(stderr, "ERROR\n");
+			break;
 	}
 }
 
-static char **create_str(int n){
+static char **create_str(unsigned int n){
 
 	if(!n)
 		return NULL;
@@ -115,9 +124,13 @@ static char **create_str(int n){
 
 static void make_file(Modele_t *m){
 
+	assert(m != NULL);
+
 	FILE *makefile = fopen("Makefile", "w");
-	if(!makefile)
-		abort();
+	if(!makefile){
+		fprintf(stderr, "ERROR\n");
+		return;
+	}
 
 	fprintf(makefile, "CC=gcc\nLD=gcc\n");
 	if(m->customCflagsMode)
@@ -281,6 +294,8 @@ static void make_file(Modele_t *m){
 
 static int exist_files(Modele_t *m){
 
+	assert(m != NULL);
+
 	long k = strlen(m->main);
 	m->main[k] = '.';
 	m->main[k+1] = 'c';
@@ -308,6 +323,8 @@ static int exist_files(Modele_t *m){
 
 int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *entryLibName, GtkWidget *entryApp){
 
+	assert(m != NULL && entryExeName != NULL && entryMainName != NULL && entryApp != NULL);
+
 	strcpy(m->exe, (char *) gtk_entry_get_text(GTK_ENTRY(entryExeName)));
 	strcpy(m->main, (char *) gtk_entry_get_text(GTK_ENTRY(entryMainName)));
 	m->tlib = length_list(entryLibName);
@@ -330,6 +347,8 @@ int run(Modele_t *m, GtkWidget *entryExeName, GtkWidget *entryMainName, List *en
 
 
 void make_rapport(Modele_t *m){
+
+	assert(m != NULL);
 
 	FILE *frapport = fopen("rapport.txt", "w");
 	if(!frapport)
@@ -355,6 +374,7 @@ void make_rapport(Modele_t *m){
 	if(m->openAppMode)
 		fprintf(frapport, "App -> %s\n", m->app);
 	fprintf(frapport, "\nEND RAPPORT");
+	fclose(frapport);
 }
 
 

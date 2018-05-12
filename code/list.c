@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 
 
@@ -31,6 +32,8 @@ unsigned length_list(List *L){
 
 List *create_cell(void *data){
 
+	assert(data != NULL);
+
 	List *cell = malloc(sizeof(List));
 	if(!cell)
 		return empty_list();
@@ -43,6 +46,8 @@ List *create_cell(void *data){
 
 List *add_first(List *L, void *data){
 
+	assert(data != NULL);
+
 	List *cell = create_cell(data);
 	cell->next = L;
 
@@ -50,6 +55,8 @@ List *add_first(List *L, void *data){
 }
 
 List *add_last(List *L, void *data){
+
+	assert(data != NULL);
 
 	List *p = L;
 	List *cell = create_cell(data);
@@ -61,6 +68,8 @@ List *add_last(List *L, void *data){
 }
 
 List *add_at(List *L, int i, void *data){
+
+	assert(data != NULL);
 
 	if(i >= length_list(L) || i < 0){
 		printf("index to big\n");
@@ -124,7 +133,7 @@ void print_list_int(List *L){
 void *get_element(List *L, int i){
 
 	if(i >= length_list(L) || i < 0){
-		printf("index to big\n");
+		printf("index wrong\n");
 		return NULL;
 	}
 
@@ -137,8 +146,10 @@ void *get_element(List *L, int i){
 
 void set_element(List *L, int i, void *data){
 
+	assert(data != NULL);
+	
 	if(i >= length_list(L) || i < 0){
-		printf("index to big\n");
+		printf("index wrong\n");
 		return;
 	}
 

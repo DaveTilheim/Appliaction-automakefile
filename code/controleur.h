@@ -58,8 +58,4 @@ void child_mode(GtkWidget *widget, gpointer pData);
 void create_rapport(GtkWidget *widget, gpointer pData);
 
 
-
-
-
-
 #endif

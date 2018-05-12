@@ -9,6 +9,7 @@
 #define MIN_LIB 0
 #define MAXC_CFLAGS 50
 #define MAXC_CHILD 51
+#define N_MODE 8
 
 typedef struct{
 

@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdarg.h>
+#include <assert.h>
 #include "vue.h"
 #include "controleur.h"
 #include "modele.h"
@@ -111,6 +112,8 @@ static GtkWidget *creer_fenetre(void){
 
 void fill_box(GtkWidget *box, int Nwg, ...){
 
+	assert(box != NULL && Nwg > 0);
+
 	va_list list_;
 	va_start(list_, Nwg);
 
@@ -190,6 +193,8 @@ static void affiche_help(GtkWidget *widget, gpointer pData){
 
 static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
 
+	assert(c != NULL);
+
 	GtkWidget *barre_menu = gtk_menu_bar_new();
 	GtkAccelGroup *accelerateur = NULL;
 	accelerateur = gtk_accel_group_new();
@@ -235,6 +240,8 @@ static GtkWidget *creer_menu(GtkWidget *window, Controleur_t *c){
 
 static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c){
 
+	assert(m != NULL && v != NULL && c != NULL);
+	
 	destroy_controleur(c);
 	destroy_vue(v);
 	destroy_modele(m);
