@@ -26,7 +26,8 @@ list.o: list.h list.c
 	@$(CC) -c list.c -o list.o $(CFLAGS) $(GTKFLAGS)
 
 open:
-	@open -a SublimeText controleur.c controleur.h vue.c vue.h modele.c modele.h list.c list.h main.c 
+	@gedit controleur.c controleur.h vue.c vue.h modele.c modele.h list.c list.h main.c &
+
 
 tar:
 	@tar -czf auto-makefile.tar.gz controleur.c controleur.h vue.c vue.h modele.c modele.h list.c list.h main.c Makefile
@@ -39,7 +40,7 @@ clean:
 
 
 ### gtk version -> gtk+2
-### to install gtk with Homebrew [https://brew.sh/index_fr]
-### -> (brew install gtk+)
-### made with auto-makefile mac edition
+### to install gtk
+### -> (apt-get install gtk+2)
+### made with auto-makefile linux edition
 ### autor Arthur Detrembleur (Appliaction company)
