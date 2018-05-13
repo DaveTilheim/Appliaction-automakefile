@@ -13,13 +13,13 @@
 #include "editor-mf.h"
 
 /**
-@fn void print_help(GtkWidget *widget, gpointer pData)
+@fn void print_help_mode(GtkWidget *widget, gpointer pData)
 @brief print a window who describes all the differents mode of the program
 @param widget unused
 @param pData unused
 @post window printed
 */ 
-void print_help(GtkWidget *widget, gpointer pData);
+void print_help_mode(GtkWidget *widget, gpointer pData);
 
 /**
 @fn GtkWidget *create_window(void)
@@ -70,6 +70,14 @@ void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
 */
 void print_information(GtkWidget *widget, gpointer pData);
 
+/**
+@fn void print_help_editor(GtkWidget *widget, gpointer pData)
+@brief print a window wich contains information about the editor mf
+@param widget unused
+@param pData unused
+@post window printed
+*/
+void print_help_editor(GtkWidget *widget, gpointer pData);
 
 int main(int argc, char **argv){
 	//#undef __APPLE__
@@ -206,7 +214,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	gtk_widget_show_all(window);
 	gtk_main();
 }
- void print_help(GtkWidget *widget, gpointer pData){
+ void print_help_mode(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = create_window();
 	gtk_window_set_title(GTK_WINDOW(window), "Help (modes)");
@@ -254,6 +262,32 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	gtk_main();
 
 }
+
+ void print_help_editor(GtkWidget *widget, gpointer pData){
+
+ 	GtkWidget *window = create_window();
+ 	gtk_window_set_title(GTK_WINDOW(window), "Help (editor)");
+ 	GtkWidget *box = gtk_vbox_new(FALSE, 5);
+	gchar *txt;
+	txt = g_locale_to_utf8("\n<b>HELP</b>", -1, NULL, NULL, NULL);
+	GtkWidget *lab1 = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(lab1), TRUE);
+	txt = g_locale_to_utf8("\n\nThanks to <b>Editor mf -> ctrl+e</b>\n", -1, NULL, NULL, NULL);
+	GtkWidget *lab2 = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(lab2), TRUE);
+	txt = g_locale_to_utf8("you can add your own instructions\n", -1, NULL, NULL, NULL);
+	GtkWidget *lab3 = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(lab3), TRUE);
+	txt = g_locale_to_utf8("  at the end of your Makefile with <b>ctrl+s</b>   \n\n", -1, NULL, NULL, NULL);
+	GtkWidget *lab4 = gtk_label_new(txt);
+	gtk_label_set_use_markup(GTK_LABEL(lab4), TRUE);
+	g_free(txt);
+	fill_box(box, 4, lab1, lab2, lab3, lab4);
+	gtk_container_add(GTK_CONTAINER(window), box);
+	gtk_widget_show_all(window);
+	gtk_main();
+ }
+
  GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
 
 	assert(c != NULL && window != NULL);
@@ -274,12 +308,14 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	GtkWidget *item_a_propos = gtk_menu_item_new_with_mnemonic("_Information");
 	GtkWidget *item_mode = gtk_menu_item_new_with_mnemonic("_Modes");
 	GtkWidget *item_edit = gtk_menu_item_new_with_mnemonic("_Edit MF");
+	GtkWidget *item_edit_help = gtk_menu_item_new_with_mnemonic("_Help editor");
 
 
  	gtk_widget_add_accelerator(item_quitter, "activate", accelerateur, GDK_KEY_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  	gtk_widget_add_accelerator(item_a_propos, "activate", accelerateur, GDK_KEY_i, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  	gtk_widget_add_accelerator(item_mode, "activate", accelerateur, GDK_KEY_m, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  	gtk_widget_add_accelerator(item_edit, "activate", accelerateur, GDK_KEY_e, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+ 	gtk_widget_add_accelerator(item_edit_help, "activate", accelerateur, GDK_KEY_h, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_gtkMakefile), menu_gtkMakefile);
@@ -291,6 +327,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), item_quitter);
 	
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu_help), item_mode);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu_help), item_edit_help);
 	
 	gtk_menu_shell_append(GTK_MENU_SHELL(barre_menu), item_gtkMakefile);
 	gtk_menu_shell_append(GTK_MENU_SHELL(barre_menu), item_help);
@@ -298,7 +335,8 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	g_signal_connect(G_OBJECT(item_edit), "activate", G_CALLBACK(makefile_editor_beta), NULL);
 	g_signal_connect(G_OBJECT(item_quitter), "activate", G_CALLBACK(destroy_fenetre), NULL);
 	g_signal_connect(G_OBJECT(item_a_propos), "activate", G_CALLBACK(print_information), NULL);
-	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(print_help), NULL);
+	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(print_help_mode), NULL);
+	g_signal_connect(G_OBJECT(item_edit_help), "activate", G_CALLBACK(print_help_editor), NULL);
 
 	
 	return barre_menu;
