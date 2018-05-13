@@ -1,3 +1,9 @@
+/**
+@file modele.c
+@brief contains the C code about the modele of the app
+@author Arthur Detrembleur (DaveTilheim)
+@version 1.0
+*/
 #include <gtk/gtk.h>
 #include "modele.h"
 #include <stdio.h>
@@ -106,6 +112,15 @@ void active_mode(Modele_t *m, int mode){
 	}
 }
 
+/**
+@fn static char **create_str(unsigned int n)
+@brief create a dynamic matrix of string
+@param n the number of string
+@post new matrix of string 
+@return a double char pointer 
+*/
+static char **create_str(unsigned int n);
+
 static char **create_str(unsigned int n){
 
 	if(!n)
@@ -121,6 +136,15 @@ static char **create_str(unsigned int n){
 
 	return str;
 }
+
+/**
+@fn static void make_file(Modele_t *m)
+@brief create a Makefile
+@param m the modele of the app
+@pre m != NULL
+@post Makefile created
+*/
+static void make_file(Modele_t *m);
 
 static void make_file(Modele_t *m){
 
@@ -291,6 +315,16 @@ static void make_file(Modele_t *m){
 	
 	fclose(makefile);
 }
+
+/**
+@fn static int exist_files(Modele_t *m)
+@brief indicates if the libs exist
+@param m the modele of the app
+@pre m != NULL
+@post libs exist or not
+@return 1 succes   0 not exist
+*/
+static int exist_files(Modele_t *m);
 
 static int exist_files(Modele_t *m){
 

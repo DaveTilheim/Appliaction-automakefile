@@ -1,9 +1,13 @@
+/**
+@file list.c
+@brief contains the C code about the data sruct 'List'
+@author Arthur Detrembleur (DaveTilheim)
+@version 1.0
+*/
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
-
 
 
 inline List *empty_list(void){
@@ -11,6 +15,13 @@ inline List *empty_list(void){
 	return NULL;
 }
 
+/**
+@fn static inline int is_empty(List *L)
+@brief indicates if a list is empty
+@param L a list
+@post list empty or not
+@return 0 -> not empty list  1 -> empty list
+*/
 static inline int is_empty(List *L){
 
 	return L == NULL;
@@ -114,21 +125,6 @@ List *remove_list(List *L){
 	return remove_list(L);
 }
 
-void print_list_int(List *L){
-
-	List *p = L;
-	if(is_empty(L)){
-		printf("empty list -> nothing to show\n");
-		return;
-	}
-	while(p != NULL){
-		int *a = (int *) p->data; 
-		printf("[%d] ", *a);
-		p = p->next;
-	}
-	printf("\n");
-	
-}
 
 void *get_element(List *L, int i){
 

@@ -1,6 +1,6 @@
 /**
 @file main.c
-@author Arthur Detrembleur (DaveTilheim)
+@author Arthur Detrembleur (Appliaction [DaveTilheim])
 @version 1.0
 */
 #include <gtk/gtk.h>
@@ -12,31 +12,31 @@
 #include "modele.h"
 
 /**
-@fn static void print_help(GtkWidget *widget, gpointer pData)
+@fn void print_help(GtkWidget *widget, gpointer pData)
 @brief print a window who describes all the differents mode of the program
 @param widget unused
 @param pData unused
 @post window printed
-*/
-static void print_help(GtkWidget *widget, gpointer pData);
+*/ 
+void print_help(GtkWidget *widget, gpointer pData);
 
 /**
-@fn static GtkWidget *create_window(void)
+@fn GtkWidget *create_window(void)
 @brief create a basic window
 @post window created
 @return a GtkWidget
-*/
-static GtkWidget *create_window(void);
+*/ 
+GtkWidget *create_window(void);
 
 /**
-@fn static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c)
+@fn GtkWidget *create_menu(GtkWidget *window, Controleur_t *c)
 @brief create a menu
 @param window the main window
 @param c the controler
 @post menu created
 @return a GtkWidget
-*/
-static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c);
+*/ 
+GtkWidget *create_menu(GtkWidget *window, Controleur_t *c);
 
 /**
 @fn void fill_box(GtkWidget *box, int Nwg, ...)
@@ -44,11 +44,30 @@ static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c);
 @param box a GtkWidget
 @param Nwg the number of widgets to fill in box
 @param ... the widgets
+@pre box != NULL, Nwd > 0
 @post box fills
 */
 void fill_box(GtkWidget *box, int Nwg, ...);
 
-static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
+/**
+@fn void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c)
+@brief free MVC
+@param m a Modele_t pointer
+@param v a Vue_t pointer
+@param c a Controleur_t pointer
+@pre m != NULL, v != NULL, c != NULL
+@post MVC desallocated
+*/
+void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
+
+/**
+@fn void print_information(GtkWidget *widget, gpointer pData)
+@brief print a window wich contains information about the app
+@param widget unused
+@param pData unused
+@post window printed
+*/
+void print_information(GtkWidget *widget, gpointer pData);
 
 
 int main(int argc, char **argv){
@@ -121,7 +140,7 @@ int main(int argc, char **argv){
 
 	gtk_main();
 
-	destruction_mvc(m, v, c);
+	destroy_mvc(m, v, c);
 
 	#ifdef __APPLE__
 	printf("\n[Auto Makefile mac edition is closed]\n\n");
@@ -132,8 +151,7 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-
-static GtkWidget *create_window(void){
+ GtkWidget *create_window(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "Auto Makefile");
@@ -156,8 +174,7 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	va_end(list_);
 
 }
-
-static void affiche_a_porpos(GtkWidget *widget, gpointer pData){
+ void print_information(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = create_window();
 	gtk_window_set_title(GTK_WINDOW(window), "Information");
@@ -174,8 +191,7 @@ static void affiche_a_porpos(GtkWidget *widget, gpointer pData){
 	gtk_widget_show_all(window);
 	gtk_main();
 }
-
-static void print_help(GtkWidget *widget, gpointer pData){
+ void print_help(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = create_window();
 	gtk_window_set_title(GTK_WINDOW(window), "Help (modes)");
@@ -223,8 +239,7 @@ static void print_help(GtkWidget *widget, gpointer pData){
 	gtk_main();
 
 }
-
-static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
+ GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
 
 	assert(c != NULL && window != NULL);
 
@@ -262,7 +277,7 @@ static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
 	
 
 	g_signal_connect(G_OBJECT(item_quitter), "activate", G_CALLBACK(destroy_fenetre), NULL);
-	g_signal_connect(G_OBJECT(item_a_propos), "activate", G_CALLBACK(affiche_a_porpos), NULL);
+	g_signal_connect(G_OBJECT(item_a_propos), "activate", G_CALLBACK(print_information), NULL);
 	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(print_help), NULL);
 
 	
@@ -270,8 +285,7 @@ static GtkWidget *create_menu(GtkWidget *window, Controleur_t *c){
 }
 
 
-
-static void destruction_mvc(Modele_t *m, Vue_t *v, Controleur_t *c){
+ void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c){
 
 	assert(m != NULL && v != NULL && c != NULL);
 	

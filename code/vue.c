@@ -1,3 +1,9 @@
+/**
+@file vue.c
+@brief contains the C code about the vue of the app
+@author Arthur Detrembleur (DaveTilheim)
+@version 1.0
+*/
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>

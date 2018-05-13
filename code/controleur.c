@@ -1,3 +1,9 @@
+/**
+@file controleur.c
+@brief contains the C code about the controleur of the app
+@author Arthur Detrembleur (DaveTilheim)
+@version 1.0
+*/
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
@@ -101,6 +107,15 @@ void destroy_fenetre(GtkWidget *widget, gpointer pData){
 	gtk_main_quit();
 }
 
+/**
+@fn static int check_entry_space(char *entryText)
+@brief check spaces in an entry
+@param entryText a text of an entry
+@pre entryText != NULL
+@post spaces verified
+@return 1 no spaces   0 spaces detected
+*/
+static int check_entry_space(char *entryText);
 
 static int check_entry_space(char *entryText){
 
@@ -115,6 +130,16 @@ static int check_entry_space(char *entryText){
 
 	return 1;
 }
+
+/**
+@fn static int check_entry_empty(Controleur_t *c)
+@brief check if an entry is empty
+@param c the controleur of the app
+@pre c != NULL
+@post entry verified
+@return 1 empty entry   0 not empty entry
+*/
+static int check_entry_empty(Controleur_t *c);
 
 static int check_entry_empty(Controleur_t *c){
 
