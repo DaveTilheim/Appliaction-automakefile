@@ -125,7 +125,7 @@ static int check_entry_space(char *entryText){
 		return 0;
 
 	for(int i = 0; i < strlen(entryText); i++)
-		if(entryText[i] == ' ')
+		if(entryText[i] == ' ' || entryText[i] == '.')
 			return 0;
 
 	return 1;
@@ -178,7 +178,7 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c = (Controleur_t *) pData;
 	if(check_entry_empty(c)){
-		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[empty entry or spaces detected]</b>", -1, NULL, NULL, NULL));
+		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[empty entry or '.' or spaces detected]</b>", -1, NULL, NULL, NULL));
 		gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
 		return;
 	}

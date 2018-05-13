@@ -49,3 +49,7 @@ clean:
 
 doc:
 	@(cd .. ; doxygen Doxyfile)
+
+### Additional instructions
+hello:
+	@echo Hello World!
