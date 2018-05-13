@@ -69,7 +69,6 @@ void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
 */
 void print_information(GtkWidget *widget, gpointer pData);
 
-
 int main(int argc, char **argv){
 	//#undef __APPLE__
 	//to test the linux edition on mac
@@ -79,6 +78,7 @@ int main(int argc, char **argv){
 	#endif
 
 	gtk_init(&argc, &argv);
+
 
 	Modele_t *m = creer_modele();
 	if(!m){
@@ -103,11 +103,14 @@ int main(int argc, char **argv){
 	gtk_window_set_default_size(GTK_WINDOW(v->window), 800, 800);
 	v->boxAll = gtk_vbox_new(FALSE, 5);
 	GtkWidget *menu = create_menu(v->window, c);
+
+	GtkWidget *separator1 = gtk_hseparator_new();
+
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
 	fill_box(v->vboxWidget, 14, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
-		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, c->checkButtonCustomCflagsMode, c->entryCflags,
+		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, separator1, c->checkButtonCustomCflagsMode, c->entryCflags,
 		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
 	fill_box(v->boxAll, 5, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning);
@@ -151,7 +154,10 @@ int main(int argc, char **argv){
 	return 0;
 }
 
- GtkWidget *create_window(void){
+
+
+     
+GtkWidget *create_window(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "Auto Makefile");
