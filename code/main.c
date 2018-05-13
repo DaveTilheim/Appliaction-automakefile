@@ -260,9 +260,9 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	GtkWidget *item_mode = gtk_menu_item_new_with_mnemonic("_Modes");
 
 
- 	gtk_widget_add_accelerator(item_quitter, "activate", accelerateur, GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
- 	gtk_widget_add_accelerator(item_a_propos, "activate", accelerateur, GDK_i, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
- 	gtk_widget_add_accelerator(item_mode, "activate", accelerateur, GDK_m, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+ 	gtk_widget_add_accelerator(item_quitter, "activate", accelerateur, GDK_KEY_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+ 	gtk_widget_add_accelerator(item_a_propos, "activate", accelerateur, GDK_KEY_i, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+ 	gtk_widget_add_accelerator(item_mode, "activate", accelerateur, GDK_KEY_m, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_gtkMakefile), menu_gtkMakefile);

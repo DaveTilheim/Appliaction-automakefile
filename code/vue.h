@@ -20,6 +20,7 @@ typedef struct{
 	Modele_t *m; /*!< the modele of the app */
 	GtkWidget *window; /*!< the main window */
 	GtkWidget *boxAll; /*!< the main box */
+	GtkWidget *hboxWidget; /*!< a box contains widgets */
 	GtkWidget *vboxWidget; /*!< a box contains widgets */
 	GtkWidget *boxWidget[N_BOX_WIDGET]; /*!< a box contains widgets */
 	List *boxLib; /*!< a list of box */
