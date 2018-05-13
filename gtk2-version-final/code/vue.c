@@ -32,6 +32,8 @@ Vue_t *creer_vue(Modele_t *m){
 		v->boxWidget[i] = gtk_vbox_new(FALSE, 5);
 	v->boxLib = empty_list();
 	v->labelWarning = gtk_label_new("no error");
+	gtk_label_set_text(GTK_LABEL(v->labelWarning), g_locale_to_utf8("<b>no error</b>", -1, NULL, NULL, NULL));
+	gtk_label_set_use_markup(GTK_LABEL(v->labelWarning), TRUE);
 	v->hboxWidget = gtk_hbox_new(FALSE, 0);
 	v->vboxWidget = gtk_vbox_new(FALSE , 13);
 

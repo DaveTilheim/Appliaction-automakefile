@@ -35,6 +35,7 @@ static void save_makefile_beta(GtkWidget *widget, gpointer pData){
 	text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
 
 	FILE *fmakefileBeta = fopen("Makefile", "a");
+	fprintf(fmakefileBeta, "\n### Additional instructions\n");
 	if(!fmakefileBeta)
 		return;
 	fprintf(fmakefileBeta, "%s\n", text);

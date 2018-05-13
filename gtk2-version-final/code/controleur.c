@@ -167,7 +167,8 @@ void create_rapport(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c =(Controleur_t *) pData;
 	make_rapport(c->m);
-	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[rapport created]");
+	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[rapport created]</b>", -1, NULL, NULL, NULL));
+	gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
 	gtk_widget_set_sensitive(c->buttonRapport, FALSE);
 }
 
@@ -177,7 +178,8 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 
 	Controleur_t *c = (Controleur_t *) pData;
 	if(check_entry_empty(c)){
-		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[empty entry or spaces detected]");
+		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[empty entry or spaces detected]</b>", -1, NULL, NULL, NULL));
+		gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
 		return;
 	}
 
@@ -189,11 +191,13 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 		strcpy(c->m->child, (char *) gtk_entry_get_text(GTK_ENTRY(c->entryChild)));
 	
 	if(!run(c->m, c->entryExeName, c->entryMainName, c->entryLibName, c->entryOpenApp)){
-		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[file not found]");
+		gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[file not found]</b>", -1, NULL, NULL, NULL));
+		gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
 		return;
 	}
 
-	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), "[makefile created]");
+	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[makefile created]</b>", -1, NULL, NULL, NULL));
+	gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
 	gtk_widget_set_sensitive(c->buttonRapport, TRUE);
 }
 

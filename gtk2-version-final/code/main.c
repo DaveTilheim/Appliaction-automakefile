@@ -81,6 +81,11 @@ int main(int argc, char **argv){
 
 	gtk_init(&argc, &argv);
 
+	GdkColor color;
+  	gdk_color_parse ("grey", &color);
+  	
+	GtkWidget *labelWarn = gtk_label_new(" previous Makefile will be removed \n");
+	gtk_widget_modify_fg (labelWarn, GTK_STATE_NORMAL, &color);
 
 	Modele_t *m = creer_modele();
 	if(!m){
@@ -104,9 +109,11 @@ int main(int argc, char **argv){
 	v->window = create_window();
 	
 	v->boxAll = gtk_vbox_new(FALSE, 5);
+
 	GtkWidget *menu = create_menu(v->window, c);
 
 	GtkWidget *separator1 = gtk_hseparator_new();
+	GtkWidget *separator2 = gtk_hseparator_new();
 
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
@@ -115,7 +122,7 @@ int main(int argc, char **argv){
 		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, separator1, c->checkButtonCustomCflagsMode, c->entryCflags,
 		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
-	fill_box(v->boxAll, 5, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning);
+	fill_box(v->boxAll, 7, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning, separator2, labelWarn);
 
 	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);
 
