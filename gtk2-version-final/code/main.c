@@ -10,6 +10,7 @@
 #include "vue.h"
 #include "controleur.h"
 #include "modele.h"
+#include "editor-mf.h"
 
 /**
 @fn void print_help(GtkWidget *widget, gpointer pData)
@@ -69,6 +70,7 @@ void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
 */
 void print_information(GtkWidget *widget, gpointer pData);
 
+
 int main(int argc, char **argv){
 	//#undef __APPLE__
 	//to test the linux edition on mac
@@ -100,7 +102,7 @@ int main(int argc, char **argv){
 	}
 
 	v->window = create_window();
-	gtk_window_set_default_size(GTK_WINDOW(v->window), 800, 800);
+	
 	v->boxAll = gtk_vbox_new(FALSE, 5);
 	GtkWidget *menu = create_menu(v->window, c);
 
@@ -109,7 +111,7 @@ int main(int argc, char **argv){
 	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
 	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
 	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
-	fill_box(v->vboxWidget, 14, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
+	fill_box(v->vboxWidget, 15, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
 		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, separator1, c->checkButtonCustomCflagsMode, c->entryCflags,
 		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
 	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
@@ -264,24 +266,29 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	GtkWidget *item_quitter = gtk_menu_item_new_with_mnemonic("_Quit");
 	GtkWidget *item_a_propos = gtk_menu_item_new_with_mnemonic("_Information");
 	GtkWidget *item_mode = gtk_menu_item_new_with_mnemonic("_Modes");
+	GtkWidget *item_edit = gtk_menu_item_new_with_mnemonic("_Edit MF");
 
 
  	gtk_widget_add_accelerator(item_quitter, "activate", accelerateur, GDK_KEY_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  	gtk_widget_add_accelerator(item_a_propos, "activate", accelerateur, GDK_KEY_i, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  	gtk_widget_add_accelerator(item_mode, "activate", accelerateur, GDK_KEY_m, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+ 	gtk_widget_add_accelerator(item_edit, "activate", accelerateur, GDK_KEY_e, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
  
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_gtkMakefile), menu_gtkMakefile);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item_help), menu_help);
 	
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), item_quitter);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), item_edit);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), item_a_propos);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), gtk_separator_menu_item_new());
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu_gtkMakefile), item_quitter);
+	
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu_help), item_mode);
 	
 	gtk_menu_shell_append(GTK_MENU_SHELL(barre_menu), item_gtkMakefile);
 	gtk_menu_shell_append(GTK_MENU_SHELL(barre_menu), item_help);
 	
-
+	g_signal_connect(G_OBJECT(item_edit), "activate", G_CALLBACK(makefile_editor_beta), NULL);
 	g_signal_connect(G_OBJECT(item_quitter), "activate", G_CALLBACK(destroy_fenetre), NULL);
 	g_signal_connect(G_OBJECT(item_a_propos), "activate", G_CALLBACK(print_information), NULL);
 	g_signal_connect(G_OBJECT(item_mode), "activate", G_CALLBACK(print_help), NULL);
@@ -299,4 +306,5 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	destroy_vue(v);
 	destroy_modele(m);
 }
+
 

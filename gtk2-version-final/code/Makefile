@@ -6,8 +6,8 @@ EXE=auto-makefile
 
 all:$(EXE)
 
-auto-makefile: main.o controleur.o vue.o modele.o list.o 
-	@$(LD) -o auto-makefile main.o controleur.o vue.o modele.o list.o $(GTKFLAGS)
+auto-makefile: main.o controleur.o vue.o modele.o editor-mf.o list.o 
+	@$(LD) -o auto-makefile main.o controleur.o vue.o modele.o editor-mf.o list.o $(GTKFLAGS)
 	@echo compilation success
 
 main.o:main.c
@@ -22,14 +22,17 @@ vue.o: vue.h vue.c
 modele.o: modele.h modele.c
 	@$(CC) -c modele.c -o modele.o $(CFLAGS) $(GTKFLAGS)
 
+editor-mf.o: editor-mf.h editor-mf.c
+	@$(CC) -c editor-mf.c -o editor-mf.o $(CFLAGS) $(GTKFLAGS)
+
 list.o: list.h list.c
 	@$(CC) -c list.c -o list.o $(CFLAGS) $(GTKFLAGS)
 
 open:
-	@open -a SublimeText controleur.c controleur.h vue.c vue.h modele.c modele.h list.c list.h main.c 
+	@open -a SublimeText controleur.c controleur.h vue.c vue.h modele.c modele.h editor-mf.c editor-mf.h list.c list.h main.c 
 
 tar:
-	@tar -czf auto-makefile.tar.gz controleur.c controleur.h vue.c vue.h modele.c modele.h list.c list.h main.c Makefile
+	@tar -czf auto-makefile.tar.gz controleur.c controleur.h vue.c vue.h modele.c modele.h editor-mf.c editor-mf.h list.c list.h main.c Makefile
 
 
 clean:
@@ -43,3 +46,6 @@ clean:
 ### -> (brew install gtk+)
 ### made with auto-makefile mac edition
 ### autor Arthur Detrembleur (Appliaction company)
+
+doc:
+	@(cd .. ; doxygen Doxyfile)
