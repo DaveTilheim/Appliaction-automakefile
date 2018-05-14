@@ -17,5 +17,15 @@
 */
 void fill_box(GtkWidget *box, int Nwg, ...);
 
+/**
+@fn GtkWidget *create_window_with_title(char *title)
+@brief create a window
+@param box a GtkWidget
+@param title the title of the window
+@post window created
+@return GtkWidget*
+*/
+GtkWidget *create_window_with_title(char *title);
+
 
 #endif
