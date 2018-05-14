@@ -1,5 +1,5 @@
 /**
-@file controleur.c
+@file controleur-amf.c
 @brief contains the C code about the controleur of the app
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
@@ -8,10 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "modele.h"
-#include "vue.h"
-#include "controleur.h"
+#include "modele-amf.h"
+#include "vue-amf.h"
+#include "controleur-amf.h"
 #include "list.h"
+#include "util-gtk.h"
 
 
 
@@ -56,8 +57,6 @@ void destroy_controleur(Controleur_t *c){
 	c->entryLibName = remove_list(c->entryLibName);
 	free(c);
 }
-
-extern void fill_box(GtkWidget *box, int Nwg, ...);
 
 void spin_add_library_entry(GtkWidget *widget, gpointer pData){
 

@@ -1,5 +1,5 @@
 /**
-@file editor-mf.c
+@file editor-amf.c
 @brief contains the C code about the editor makefile
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
@@ -8,9 +8,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <assert.h>
-#include "editor-mf.h"
-
-extern void fill_box(GtkWidget *box, int Nwg, ...);
+#include "editor-amf.h"
+#include "util-gtk.h"
 
 extern GtkWidget *create_window(void);
 

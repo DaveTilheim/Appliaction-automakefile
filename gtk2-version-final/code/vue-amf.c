@@ -1,5 +1,5 @@
 /**
-@file vue.c
+@file vue-amf.c
 @brief contains the C code about the vue of the app
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
@@ -9,10 +9,11 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "vue.h"
-#include "modele.h"
-#include "controleur.h"
+#include "vue-amf.h"
+#include "modele-amf.h"
+#include "controleur-amf.h"
 #include "list.h"
+#include "util-gtk.h"
 
 
 Vue_t *creer_vue(Modele_t *m){
@@ -79,7 +80,6 @@ void spin_sub_library_label(Vue_t *v){
 }
 
 
-extern void fill_box(GtkWidget *box, int Nwg, ...);
 
 void box_in_window_and_show(Vue_t *v){
 	

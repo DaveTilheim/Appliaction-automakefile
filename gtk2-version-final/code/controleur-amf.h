@@ -1,6 +1,6 @@
 /**
-@file controleur.h
-@brief contains the struct Controleur_t and the prototypes of controleur.c
+@file controleur-amf.h
+@brief contains the struct Controleur_t and the prototypes of controleur-amf.c
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
 */
@@ -8,8 +8,8 @@
 #define __CONTROLEUR__
 
 #include <gtk/gtk.h>
-#include "modele.h"
-#include "vue.h"
+#include "modele-amf.h"
+#include "vue-amf.h"
 
 /**
 @struct Controleur_t

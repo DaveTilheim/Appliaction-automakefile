@@ -1,5 +1,5 @@
 /**
-@file main.c
+@file window-amf.c
 @author Arthur Detrembleur (Appliaction [DaveTilheim])
 @version 1.0
 */
@@ -7,173 +7,14 @@
 #include <gdk/gdkkeysyms.h>
 #include <stdarg.h>
 #include <assert.h>
-#include "vue.h"
-#include "controleur.h"
-#include "modele.h"
-#include "editor-mf.h"
-
-/**
-@fn void print_help_mode(GtkWidget *widget, gpointer pData)
-@brief print a window who describes all the differents mode of the program
-@param widget unused
-@param pData unused
-@post window printed
-*/ 
-void print_help_mode(GtkWidget *widget, gpointer pData);
-
-/**
-@fn GtkWidget *create_window(void)
-@brief create a basic window
-@post window created
-@return a GtkWidget
-*/ 
-GtkWidget *create_window(void);
-
-/**
-@fn GtkWidget *create_menu(GtkWidget *window, Controleur_t *c)
-@brief create a menu
-@param window the main window
-@param c the controler
-@post menu created
-@return a GtkWidget
-*/ 
-GtkWidget *create_menu(GtkWidget *window, Controleur_t *c);
-
-/**
-@fn void fill_box(GtkWidget *box, int Nwg, ...)
-@brief fill a box with widgets
-@param box a GtkWidget
-@param Nwg the number of widgets to fill in box
-@param ... the widgets
-@pre box != NULL, Nwd > 0
-@post box fills
-*/
-void fill_box(GtkWidget *box, int Nwg, ...);
-
-/**
-@fn void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c)
-@brief free MVC
-@param m a Modele_t pointer
-@param v a Vue_t pointer
-@param c a Controleur_t pointer
-@pre m != NULL, v != NULL, c != NULL
-@post MVC desallocated
-*/
-void destroy_mvc(Modele_t *m, Vue_t *v, Controleur_t *c);
-
-/**
-@fn void print_information(GtkWidget *widget, gpointer pData)
-@brief print a window wich contains information about the app
-@param widget unused
-@param pData unused
-@post window printed
-*/
-void print_information(GtkWidget *widget, gpointer pData);
-
-/**
-@fn void print_help_editor(GtkWidget *widget, gpointer pData)
-@brief print a window wich contains information about the editor mf
-@param widget unused
-@param pData unused
-@post window printed
-*/
-void print_help_editor(GtkWidget *widget, gpointer pData);
-
-int main(int argc, char **argv){
-	//#undef __APPLE__
-	//to test the linux edition on mac
-	#ifdef _WIN32
-	fprintf(stderr, "WARNING [auto-makefile works only on Mac and Linux]\n");
-	return -1;
-	#endif
-
-	gtk_init(&argc, &argv);
-
-	GdkColor color;
-  	gdk_color_parse ("grey", &color);
-  	
-	GtkWidget *labelWarn = gtk_label_new(" previous Makefile will be removed \n");
-	gtk_widget_modify_fg (labelWarn, GTK_STATE_NORMAL, &color);
-
-	Modele_t *m = creer_modele();
-	if(!m){
-		fprintf(stderr, "ERROR\n");
-		return -1;
-	}
-	Vue_t *v = creer_vue(m);
-	if(!v){
-		fprintf(stderr, "ERROR\n");
-		destroy_modele(m);
-		return -1;
-	}
-	Controleur_t *c = creer_controleur(v, m);
-	if(!c){
-		fprintf(stderr, "ERROR\n");
-		destroy_modele(m);
-		destroy_vue(v);
-		return -1;
-	}
-
-	v->window = create_window();
-	
-	v->boxAll = gtk_vbox_new(FALSE, 5);
-
-	GtkWidget *menu = create_menu(v->window, c);
-
-	GtkWidget *separator1 = gtk_hseparator_new();
-	GtkWidget *separator2 = gtk_hseparator_new();
-
-	fill_box(v->boxWidget[0], 2, v->labelEntryExeName, c->entryExeName);
-	fill_box(v->boxWidget[1], 2, v->labelEntryNLib, c->spinButtonNLib);
-	fill_box(v->boxWidget[3], 2, v->labelEntryMainName, c->entryMainName);
-	fill_box(v->vboxWidget, 15, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
-		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, separator1, c->checkButtonCustomCflagsMode, c->entryCflags,
-		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
-	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
-	fill_box(v->boxAll, 7, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning, separator2, labelWarn);
-
-	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);
-
-	gtk_widget_show_all(v->window);
-
-	gtk_widget_hide(c->entryOpenApp);
-	gtk_widget_hide(c->entryCflags);
-	gtk_widget_hide(c->entryChild);
-
-	g_signal_connect(G_OBJECT(c->spinButtonNLib), "value-changed", G_CALLBACK(spin_add_library_entry), c);
-	g_signal_connect(G_OBJECT(c->buttonConfirm), "clicked", G_CALLBACK(make_makefile), c);
-	g_signal_connect(G_OBJECT(c->checkButtonGtkMode), "clicked", G_CALLBACK(gtk_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonLibSeparateMode), "clicked", G_CALLBACK(libs_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonLibCommuneMode), "clicked", G_CALLBACK(libc_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonCheckFileMode), "clicked", G_CALLBACK(checkf_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonOpenWithApp), "clicked", G_CALLBACK(open_app_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonCompressed), "clicked", G_CALLBACK(compressed_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonCustomCflagsMode), "clicked", G_CALLBACK(custom_cflags_mode), c);
-	g_signal_connect(G_OBJECT(c->checkButtonChildMode), "clicked", G_CALLBACK(child_mode), c);
-	g_signal_connect(G_OBJECT(c->buttonRapport), "clicked", G_CALLBACK(create_rapport), c);
-
-	#ifdef __APPLE__
-	printf("\n[Auto Makefile mac edition is running]\n");
-	#else
-	printf("\n[Auto Makefile linux edition is running]\n");
-	#endif
-
-	gtk_main();
-
-	destroy_mvc(m, v, c);
-
-	#ifdef __APPLE__
-	printf("\n[Auto Makefile mac edition is closed]\n\n");
-	#else
-	printf("\n[Auto Makefile linux edition is closed]\n\n");
-	#endif
-
-	return 0;
-}
+#include "vue-amf.h"
+#include "controleur-amf.h"
+#include "modele-amf.h"
+#include "editor-amf.h"
+#include "util-gtk.h"
 
 
 
-     
 GtkWidget *create_window(void){
 
 	GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -184,19 +25,7 @@ GtkWidget *create_window(void){
 	return window;
 }
 
-void fill_box(GtkWidget *box, int Nwg, ...){
 
-	assert(box != NULL && Nwg > 0);
-
-	va_list list_;
-	va_start(list_, Nwg);
-
-	for(int i = 0; i < Nwg; i++)
-		gtk_box_pack_start(GTK_BOX(box), va_arg(list_, GtkWidget*), TRUE, TRUE, 0);
-
-	va_end(list_);
-
-}
  void print_information(GtkWidget *widget, gpointer pData){
 
 	GtkWidget *window = create_window();
@@ -351,5 +180,3 @@ void fill_box(GtkWidget *box, int Nwg, ...){
 	destroy_vue(v);
 	destroy_modele(m);
 }
-
-

@@ -1,11 +1,11 @@
 /**
-@file modele.c
+@file modele-amf.c
 @brief contains the C code about the modele of the app
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
 */
 #include <gtk/gtk.h>
-#include "modele.h"
+#include "modele-amf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

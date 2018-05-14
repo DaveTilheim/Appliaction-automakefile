@@ -6,33 +6,42 @@ EXE=auto-makefile
 
 all:$(EXE)
 
-auto-makefile: main.o controleur.o vue.o modele.o editor-mf.o list.o 
-	@$(LD) -o auto-makefile main.o controleur.o vue.o modele.o editor-mf.o list.o $(GTKFLAGS)
+auto-makefile: main-amf.o controleur-amf.o vue-amf.o modele-amf.o util-gtk.o appliaction-apps.o window-amf.o editor-amf.o list.o 
+	@$(LD) -o auto-makefile main-amf.o controleur-amf.o vue-amf.o modele-amf.o util-gtk.o appliaction-apps.o window-amf.o editor-amf.o list.o $(GTKFLAGS)
 	@echo compilation success
 
-main.o:main.c
-	@$(CC) -c main.c -o main.o $(CFLAGS) $(GTKFLAGS)
+main-amf.o:main-amf.c
+	@$(CC) -c main-amf.c -o main-amf.o $(CFLAGS) $(GTKFLAGS)
 
-controleur.o: controleur.h controleur.c
-	@$(CC) -c controleur.c -o controleur.o $(CFLAGS) $(GTKFLAGS)
+controleur-amf.o: controleur-amf.h controleur-amf.c
+	@$(CC) -c controleur-amf.c -o controleur-amf.o $(CFLAGS) $(GTKFLAGS)
 
-vue.o: vue.h vue.c
-	@$(CC) -c vue.c -o vue.o $(CFLAGS) $(GTKFLAGS)
+vue-amf.o: vue-amf.h vue-amf.c
+	@$(CC) -c vue-amf.c -o vue-amf.o $(CFLAGS) $(GTKFLAGS)
 
-modele.o: modele.h modele.c
-	@$(CC) -c modele.c -o modele.o $(CFLAGS) $(GTKFLAGS)
+modele-amf.o: modele-amf.h modele-amf.c
+	@$(CC) -c modele-amf.c -o modele-amf.o $(CFLAGS) $(GTKFLAGS)
 
-editor-mf.o: editor-mf.h editor-mf.c
-	@$(CC) -c editor-mf.c -o editor-mf.o $(CFLAGS) $(GTKFLAGS)
+util-gtk.o: util-gtk.h util-gtk.c
+	@$(CC) -c util-gtk.c -o util-gtk.o $(CFLAGS) $(GTKFLAGS)
+
+appliaction-apps.o: appliaction-apps.h appliaction-apps.c
+	@$(CC) -c appliaction-apps.c -o appliaction-apps.o $(CFLAGS) $(GTKFLAGS)
+
+window-amf.o: window-amf.h window-amf.c
+	@$(CC) -c window-amf.c -o window-amf.o $(CFLAGS) $(GTKFLAGS)
+
+editor-amf.o: editor-amf.h editor-amf.c
+	@$(CC) -c editor-amf.c -o editor-amf.o $(CFLAGS) $(GTKFLAGS)
 
 list.o: list.h list.c
 	@$(CC) -c list.c -o list.o $(CFLAGS) $(GTKFLAGS)
 
 open:
-	@open -a SublimeText controleur.c controleur.h vue.c vue.h modele.c modele.h editor-mf.c editor-mf.h list.c list.h main.c 
+	@open -a SublimeText controleur-amf.c controleur-amf.h vue-amf.c vue-amf.h modele-amf.c modele-amf.h util-gtk.c util-gtk.h appliaction-apps.c appliaction-apps.h window-amf.c window-amf.h editor-amf.c editor-amf.h list.c list.h main-amf.c 
 
 tar:
-	@tar -czf auto-makefile.tar.gz controleur.c controleur.h vue.c vue.h modele.c modele.h editor-mf.c editor-mf.h list.c list.h main.c Makefile
+	@tar -czf auto-makefile.tar.gz controleur-amf.c controleur-amf.h vue-amf.c vue-amf.h modele-amf.c modele-amf.h util-gtk.c util-gtk.h appliaction-apps.c appliaction-apps.h window-amf.c window-amf.h editor-amf.c editor-amf.h list.c list.h main-amf.c Makefile
 
 
 clean:
@@ -46,10 +55,3 @@ clean:
 ### -> (brew install gtk+)
 ### made with auto-makefile mac edition
 ### autor Arthur Detrembleur (Appliaction company)
-
-doc:
-	@(cd .. ; doxygen Doxyfile)
-
-### Additional instructions
-hello:
-	@echo Hello World!

@@ -1,6 +1,6 @@
 /**
-@file modele.h
-@brief contains the struct Modele_t and the prototypes of modele.c
+@file modele-amf.h
+@brief contains the struct Modele_t and the prototypes of modele-amf.c
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
 */

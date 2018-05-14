@@ -1,8 +1,8 @@
 #ifndef __EDITOR__
 #define __EDITOR__
 /**
-@file editor-mf.h
-@brief contains the prototypes of editor-mf.c
+@file editor-amf.h
+@brief contains the prototypes of editor-amf.c
 @author Arthur Detrembleur (DaveTilheim)
 @version 1.0
 */
