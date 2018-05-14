@@ -12,6 +12,7 @@
 #include "modele-amf.h"
 #include "editor-amf.h"
 #include "util-gtk.h"
+#include "window-amf.h"
 
 
 

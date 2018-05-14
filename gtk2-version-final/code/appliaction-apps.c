@@ -13,6 +13,7 @@
 #include "editor-amf.h"
 #include "window-amf.h"
 #include "util-gtk.h"
+#include "appliaction-apps.h"
 
 
 int auto_makefile_main_program(void){

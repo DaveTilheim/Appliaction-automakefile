@@ -6,6 +6,7 @@
 #include <gtk/gtk.h>
 #include <stdarg.h>
 #include <assert.h>
+#include "util-gtk.h"
 
 void fill_box(GtkWidget *box, int Nwg, ...){
 
