@@ -8,6 +8,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <assert.h>
+#include <string.h>
 #include "editor-amf.h"
 #include "util-gtk.h"
 
@@ -32,7 +33,8 @@ static void save_makefile_beta(GtkWidget *widget, gpointer pData){
 	gchar *text;
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
-
+	if(!text)
+		return;
 	FILE *fmakefileBeta = fopen("Makefile", "a");
 	fprintf(fmakefileBeta, "\n### Additional instructions\n");
 	if(!fmakefileBeta)
