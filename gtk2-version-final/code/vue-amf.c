@@ -70,7 +70,7 @@ void spin_add_library_label(Vue_t *v){
 	
 	assert(v != NULL);
 	
-	v->labelEntryNameLib = add_first(v->labelEntryNameLib, gtk_label_new("Lib name: "));
+	v->labelEntryNameLib = add_first(v->labelEntryNameLib, gtk_label_new("lib name"));
 }
 
 void spin_sub_library_label(Vue_t *v){

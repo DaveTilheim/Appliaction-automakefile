@@ -179,3 +179,6 @@ GtkWidget *create_window(void){
 	destroy_vue(v);
 	destroy_modele(m);
 }
+
+
+

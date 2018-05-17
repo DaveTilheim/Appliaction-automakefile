@@ -163,13 +163,25 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes\n");
 	if(m->gtkMode) 
 		fprintf(makefile, "GTKFLAGS=`pkg-config --cflags --libs gtk+-2.0`\n");
+	fprintf(makefile, "OBJ= ");
+	for(int i = 0; i < m->tlib; i++)
+		fprintf(makefile, "%s.o ", m->lib[i]);
+	fprintf(makefile, "\n");
+	fprintf(makefile, "HEAD= ");
+	for(int i = 0; i < m->tlib; i++)
+		fprintf(makefile, "%s.h ", m->lib[i]);
+	fprintf(makefile, "\n");
+	fprintf(makefile, "CODE= ");
+	for(int i = 0; i < m->tlib; i++)
+		fprintf(makefile, "%s.c ", m->lib[i]);
+	fprintf(makefile, "\n");
+
 	fprintf(makefile, "EXE=%s\n\nall:$(EXE)\n\n", m->exe);
 	fprintf(makefile, "%s: ", m->exe);
 	if(m->libSepMode || m->libComMode)
 		fprintf(makefile, "lib ");
 	fprintf(makefile, "%s.o ", m->main );
-	for(int i = 0; i < m->tlib; i++)
-		fprintf(makefile, "%s.o ", m->lib[i]);
+	fprintf(makefile, "$(OBJ) ");
 	fprintf(makefile, "\n");
 	fprintf(makefile, "\t@$(LD) -o %s %s.o ", m->exe, m->main);
 
@@ -182,8 +194,7 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "-L. -lmulti ");
 	}
 	else{
-		for(int i = 0; i < m->tlib; i++)
-			fprintf(makefile, "%s.o ", m->lib[i]);
+		fprintf(makefile, "$(OBJ) ");
 	}
 
 	if(m->gtkMode)
@@ -218,8 +229,7 @@ static void make_file(Modele_t *m){
 			for(int i = 0; i < m->tlib; i++)
 				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
 			fprintf(makefile, "\t@ar ruv libmulti.a ");
-			for(int i = 0; i < m->tlib; i++)
-				fprintf(makefile, "%s.o ", m->lib[i]);
+			fprintf(makefile, "$(OBJ) ");
 			fprintf(makefile, "\n\t@ranlib libmulti.a\n\n");
 			fprintf(makefile, "\n\n");
 		}
@@ -271,9 +281,8 @@ static void make_file(Modele_t *m){
 		#else
 		fprintf(makefile, "\t@%s ", m->app);
 		#endif
-		for(int i = 0; i < m->tlib; i++){
-			fprintf(makefile, "%s.c %s.h ", m->lib[i], m->lib[i]);
-		}
+		fprintf(makefile, "$(HEAD) $(CODE) ");
+		
 		fprintf(makefile, "%s.c ", m->main);
 		#ifdef __linux__
 		fprintf(makefile, "&\n");
@@ -285,8 +294,7 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "tar:\n");
 		fprintf(makefile, "\t@tar -czf %s.tar.gz ", m->exe);
 		
-		for(int i = 0; i < m->tlib; i++)
-			fprintf(makefile, "%s.c %s.h ", m->lib[i], m->lib[i]);
+		fprintf(makefile, "$(HEAD) $(CODE) ");
 
 		fprintf(makefile, "%s.c Makefile\n", m->main);
 		fprintf(makefile, "\n\n");
