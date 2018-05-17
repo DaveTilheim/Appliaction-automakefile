@@ -338,6 +338,7 @@ static int exist_files(Modele_t *m){
 
 	assert(m != NULL);
 
+	
 	long k = strlen(m->main);
 	m->main[k] = '.';
 	m->main[k+1] = 'c';

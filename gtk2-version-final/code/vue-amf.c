@@ -31,6 +31,7 @@ Vue_t *creer_vue(Modele_t *m){
 	v->labelEntryMainName = gtk_label_new("Main name: ");
 	for(int i = 0; i < N_BOX_WIDGET; i++)
 		v->boxWidget[i] = gtk_vbox_new(FALSE, 5);
+	fill_box(v->boxWidget[2], 1, gtk_label_new("——————[LIBS]——————"));
 	v->boxLib = empty_list();
 	v->labelWarning = gtk_label_new("no error");
 	gtk_label_set_text(GTK_LABEL(v->labelWarning), g_locale_to_utf8("<b>no error</b>", -1, NULL, NULL, NULL));

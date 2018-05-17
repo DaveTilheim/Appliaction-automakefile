@@ -122,7 +122,7 @@ static int check_entry_space(char *entryText){
 		return 0;
 
 	for(int i = 0; i < strlen(entryText); i++)
-		if(entryText[i] == ' ' || entryText[i] == '.')
+		if(entryText[i] == ' ')
 			return 0;
 
 	return 1;
@@ -146,7 +146,7 @@ static int check_entry_empty(Controleur_t *c){
 		return 1;
 	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryMainName))))
 		return 1;
-	if(!check_entry_space((char *)gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
+	if(!strlen((char *)gtk_entry_get_text(GTK_ENTRY(c->entryOpenApp))) && c->m->openAppMode)
 		return 1;
 	if(!strlen((char *)gtk_entry_get_text(GTK_ENTRY(c->entryCflags))) && c->m->customCflagsMode)
 		return 1;
