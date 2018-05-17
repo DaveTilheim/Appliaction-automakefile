@@ -193,8 +193,8 @@ void make_makefile(GtkWidget *widget, gpointer pData){
 		return;
 	}
 
-	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b>[makefile created]</b>", -1, NULL, NULL, NULL));
-	gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE);
+	gtk_label_set_text(GTK_LABEL(c->v->labelWarning), g_locale_to_utf8("<b> [makefile created on the current directory] </b>", -1, NULL, NULL, NULL));
+	gtk_label_set_use_markup(GTK_LABEL(c->v->labelWarning), TRUE); 
 	gtk_widget_set_sensitive(c->buttonRapport, TRUE);
 }
 

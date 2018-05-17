@@ -338,7 +338,7 @@ static int exist_files(Modele_t *m){
 
 	assert(m != NULL);
 
-	
+
 	long k = strlen(m->main);
 	m->main[k] = '.';
 	m->main[k+1] = 'c';
@@ -418,6 +418,7 @@ void make_rapport(Modele_t *m){
 		fprintf(frapport, "App -> %s\n", m->app);
 	fprintf(frapport, "\nEND RAPPORT");
 	fclose(frapport);
+
 }
 
 
