@@ -34,12 +34,10 @@ GtkWidget *create_window(void){
 	GtkWidget *box = gtk_vbox_new(TRUE, 5);
 	#ifdef __APPLE__
 	GtkWidget *label = gtk_label_new("\nAuto Makefile apple version (1.0)\nCreated by Arthur Detrembleur\nLanguage used C \nCompany Appliaction\n10/05/18");
-	GtkWidget *picture = gtk_image_new_from_file("../pictures/apple.png");
 	#else
 	GtkWidget *label = gtk_label_new("Auto Makefile linux version\nCreated by Arthur Detrembleur\nLanguage used C \nCompany Appliaction\n10/05/18");
-	GtkWidget *picture = gtk_image_new_from_file("../pictures/linux.png");
 	#endif
-	fill_box(box, 2, label, picture);
+	fill_box(box, 1, label);
 	gtk_container_add(GTK_CONTAINER(window), box);
 	gtk_widget_show_all(window);
 	gtk_main();

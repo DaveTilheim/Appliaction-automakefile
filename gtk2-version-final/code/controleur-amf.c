@@ -36,9 +36,7 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->checkButtonCheckFileMode = gtk_check_button_new_with_label("Check files");
 	c->checkButtonOpenWithApp = gtk_check_button_new_with_label("Open with app");
 	c->entryOpenApp = gtk_entry_new_with_max_length(20);
-	GtkWidget *confImage = gtk_image_new_from_file("../pictures/go.png");
-	c->buttonConfirm = gtk_button_new();
-	gtk_button_set_image (GTK_BUTTON (c->buttonConfirm), confImage);
+	c->buttonConfirm = gtk_button_new_with_label("MAKE");
 	c->checkButtonCompressed = gtk_check_button_new_with_label("Compress project");
 	c->checkButtonCustomCflagsMode = gtk_check_button_new_with_label("Custom CFLAGS");
 	c->entryCflags = gtk_entry_new_with_max_length(MAXC_CFLAGS);
