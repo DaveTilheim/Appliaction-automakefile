@@ -62,7 +62,10 @@ int auto_makefile_main_program(void){
 	fill_box(v->vboxWidget, 15, v->boxWidget[0], v->boxWidget[1], v->boxWidget[3],c->checkButtonGtkMode, c->checkButtonLibSeparateMode, 
 		c->checkButtonLibCommuneMode, c->checkButtonCheckFileMode,c->checkButtonCompressed, separator1, c->checkButtonCustomCflagsMode, c->entryCflags,
 		c->checkButtonChildMode, c->entryChild, c->checkButtonOpenWithApp, c->entryOpenApp);
-	fill_box(v->hboxWidget,2, v->vboxWidget, v->boxWidget[2]);
+	//v->boxWidget[2]
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(v->scrollBar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(v->scrollBar), v->boxWidget[2]);
+	fill_box(v->hboxWidget,2, v->vboxWidget, v->scrollBar);
 	fill_box(v->boxAll, 7, menu, v->hboxWidget, c->buttonConfirm, c->buttonRapport, v->labelWarning, separator2, labelWarn);
 
 	gtk_container_add(GTK_CONTAINER(v->window), v->boxAll);

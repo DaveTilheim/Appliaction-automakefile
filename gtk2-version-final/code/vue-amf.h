@@ -29,6 +29,7 @@ typedef struct{
 	List *labelEntryNameLib; /*!< a list contains labels */
 	GtkWidget *labelEntryMainName; /*!< a label indicates the entry of the main name */
 	GtkWidget *labelWarning; /*!< a label indicates error */
+	GtkWidget *scrollBar;
 
 }Vue_t;
 
