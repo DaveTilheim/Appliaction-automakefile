@@ -173,7 +173,7 @@ static void make_file(Modele_t *m){
 	}
 
 	if(m->gppMode)
-		fprintf(makefile, "CC=gpp\nLD=g++\n");
+		fprintf(makefile, "CC=g++\nLD=g++\n");
 	else
 		fprintf(makefile, "CC=gcc\nLD=gcc\n");
 	if(m->customCflagsMode)
@@ -222,8 +222,9 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "$(OBJ) ");
 	}
 
-	if(m->gtkMode)
+	if(m->gtkMode || m->gtk3Mode)
 		fprintf(makefile, "$(GTKFLAGS)");
+
 	fprintf(makefile, "\n\t@echo compilation success");
 	fprintf(makefile, "\n\n");
 	if(m->gppMode){
@@ -234,7 +235,7 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "%s.o:%s.c\n", m->main, m->main);
 		fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
 	}
-	if(m->gtkMode)
+	if(m->gtkMode || m->gtk3Mode)
 		fprintf(makefile, "$(GTKFLAGS)");
 	fprintf(makefile, "\n\n");
 
@@ -248,7 +249,7 @@ static void make_file(Modele_t *m){
 				fprintf(makefile, "%s.o: %s.h %s.c\n", m->lib[i], m->lib[i], m->lib[i]);
 				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
 				}
-			if(m->gtkMode)
+			if(m->gtkMode || m->gtk3Mode)
 				fprintf(makefile, "$(GTKFLAGS)");
 			fprintf(makefile, "\n\n");
 		}
@@ -257,20 +258,32 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "lib: \n");
 		if(m->libSepMode){
 			for(int i = 0; i < m->tlib; i++){
-				if(m->gppMode)
-					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
-				else
-					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				if(m->gppMode){
+					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o ", m->lib[i], m->lib[i]);
+					if(m->gtkMode || m->gtk3Mode)
+						fprintf(makefile, "$(GTKFLAGS)\n");
+				}
+				else{
+					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o ", m->lib[i], m->lib[i]);
+					if(m->gtkMode || m->gtk3Mode)
+						fprintf(makefile, "$(GTKFLAGS)\n");
+				}
 				fprintf(makefile, "\t@ar ruv lib%s.a %s.o\n", m->lib[i], m->lib[i]);
 				fprintf(makefile, "\t@ranlib lib%s.a\n\n", m->lib[i]);
 			}
 			fprintf(makefile, "\n\n");;
 		}else if(m->libComMode){
 			for(int i = 0; i < m->tlib; i++){
-				if(m->gppMode)
-					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
-				else
-					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				if(m->gppMode){
+					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o ", m->lib[i], m->lib[i]);
+					if(m->gtkMode || m->gtk3Mode)
+						fprintf(makefile, "$(GTKFLAGS)\n");
+				}
+				else{
+					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o ", m->lib[i], m->lib[i]);
+					if(m->gtkMode || m->gtk3Mode)
+						fprintf(makefile, "$(GTKFLAGS)\n");
+				}
 			}
 			fprintf(makefile, "\t@ar ruv libmulti.a ");
 			fprintf(makefile, "$(OBJ) ");
@@ -411,7 +424,13 @@ static int exist_files(Modele_t *m){
 		long j = strlen(m->lib[i]);
 		m->lib[i][j] = '.';
 		m->lib[i][j+1] = 'c';
-		m->lib[i][j+2] = '\0';
+		if(m->gppMode){
+			m->lib[i][j+2] = 'p';
+			m->lib[i][j+3] = 'p';
+			m->lib[i][j+4] = '\0';
+		}
+		else
+			m->lib[i][j+2] = '\0';
 		fcheck = fopen(m->lib[i], "r");
 		if(!fcheck)
 			return 0;
