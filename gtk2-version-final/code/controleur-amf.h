@@ -35,6 +35,8 @@ typedef struct{
 	GtkWidget *checkButtonChildMode; /*!< a check button who indicates if the childMode is active */
 	GtkWidget *entryChild; /*!< an entry indicates the name of the children of the makefile */
 	GtkWidget *buttonRapport; /*!< a button who makes a rapport */
+	GtkWidget *checkButtonGpp;
+	GtkWidget *checkButtonGtk3;
 
 }Controleur_t;
 
@@ -178,5 +180,8 @@ void child_mode(GtkWidget *widget, gpointer pData);
 */
 void create_rapport(GtkWidget *widget, gpointer pData);
 
+void gtk3_mode(GtkWidget *widget, gpointer pData);
+
+void gpp_mode(GtkWidget *widget, gpointer pData);
 
 #endif

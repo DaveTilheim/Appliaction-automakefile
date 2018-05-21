@@ -28,6 +28,8 @@ Modele_t *creer_modele(void){
 	m->lib = NULL;
 	m->customCflagsMode = 0;
 	m->childMode = 0;
+	m->gtk3Mode = 0;
+	m->gppMode = 0;
 
 	return m;
 }
@@ -106,6 +108,20 @@ void active_mode(Modele_t *m, int mode){
 				m->childMode = 0;
 			break;
 
+		case 9:
+
+			m->gtk3Mode++;
+			if(m->gtk3Mode == 2)
+				m->gtk3Mode = 0;
+			break;
+
+		case 10:
+
+			m->gppMode++;
+			if(m->gppMode == 2)
+				m->gppMode = 0;
+			break;
+
 		default:
 			fprintf(stderr, "ERROR\n");
 			break;
@@ -156,13 +172,18 @@ static void make_file(Modele_t *m){
 		return;
 	}
 
-	fprintf(makefile, "CC=gcc\nLD=gcc\n");
+	if(m->gppMode)
+		fprintf(makefile, "CC=gpp\nLD=g++\n");
+	else
+		fprintf(makefile, "CC=gcc\nLD=gcc\n");
 	if(m->customCflagsMode)
 		fprintf(makefile, "CFLAGS=%s\n", m->cflags);
 	else
 		fprintf(makefile, "CFLAGS=--std=c99 --pedantic -Wall -W -Wmissing-prototypes\n");
 	if(m->gtkMode) 
 		fprintf(makefile, "GTKFLAGS=`pkg-config --cflags --libs gtk+-2.0`\n");
+	else if(m->gtk3Mode)
+		fprintf(makefile, "GTKFLAGS=`pkg-config --cflags --libs gtk+-3.0`\n");
 	fprintf(makefile, "OBJ= ");
 	for(int i = 0; i < m->tlib; i++)
 		fprintf(makefile, "%s.o ", m->lib[i]);
@@ -172,8 +193,12 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "%s.h ", m->lib[i]);
 	fprintf(makefile, "\n");
 	fprintf(makefile, "CODE= ");
-	for(int i = 0; i < m->tlib; i++)
-		fprintf(makefile, "%s.c ", m->lib[i]);
+	for(int i = 0; i < m->tlib; i++){
+		if(m->gppMode)
+			fprintf(makefile, "%s.cpp ", m->lib[i]);
+		else
+			fprintf(makefile, "%s.c ", m->lib[i]);
+	}
 	fprintf(makefile, "\n");
 
 	fprintf(makefile, "EXE=%s\n\nall:$(EXE)\n\n", m->exe);
@@ -201,16 +226,28 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "$(GTKFLAGS)");
 	fprintf(makefile, "\n\t@echo compilation success");
 	fprintf(makefile, "\n\n");
-	fprintf(makefile, "%s.o:%s.c\n", m->main, m->main);
-	fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
+	if(m->gppMode){
+		fprintf(makefile, "%s.o:%s.cpp\n", m->main, m->main);
+		fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(CFLAGS) ", m->main, m->main);
+	}
+	else{
+		fprintf(makefile, "%s.o:%s.c\n", m->main, m->main);
+		fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->main, m->main);
+	}
 	if(m->gtkMode)
 		fprintf(makefile, "$(GTKFLAGS)");
 	fprintf(makefile, "\n\n");
 
 	if(!m->libComMode && !m->libSepMode){
 		for(int i = 0; i < m->tlib; i++){
-			fprintf(makefile, "%s.o: %s.h %s.c\n", m->lib[i], m->lib[i], m->lib[i]);
-			fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
+			if(m->gppMode){
+				fprintf(makefile, "%s.o: %s.h %s.cpp\n", m->lib[i], m->lib[i], m->lib[i]);
+				fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
+			}
+			else{
+				fprintf(makefile, "%s.o: %s.h %s.c\n", m->lib[i], m->lib[i], m->lib[i]);
+				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(CFLAGS) ", m->lib[i], m->lib[i]);
+				}
 			if(m->gtkMode)
 				fprintf(makefile, "$(GTKFLAGS)");
 			fprintf(makefile, "\n\n");
@@ -220,14 +257,21 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "lib: \n");
 		if(m->libSepMode){
 			for(int i = 0; i < m->tlib; i++){
-				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				if(m->gppMode)
+					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				else
+					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
 				fprintf(makefile, "\t@ar ruv lib%s.a %s.o\n", m->lib[i], m->lib[i]);
 				fprintf(makefile, "\t@ranlib lib%s.a\n\n", m->lib[i]);
 			}
 			fprintf(makefile, "\n\n");;
 		}else if(m->libComMode){
-			for(int i = 0; i < m->tlib; i++)
-				fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+			for(int i = 0; i < m->tlib; i++){
+				if(m->gppMode)
+					fprintf(makefile, "\t@$(CC) -c %s.cpp -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+				else
+					fprintf(makefile, "\t@$(CC) -c %s.c -o %s.o $(GTKFLAGS)\n", m->lib[i], m->lib[i]);
+			}
 			fprintf(makefile, "\t@ar ruv libmulti.a ");
 			fprintf(makefile, "$(OBJ) ");
 			fprintf(makefile, "\n\t@ranlib libmulti.a\n\n");
@@ -282,8 +326,10 @@ static void make_file(Modele_t *m){
 		fprintf(makefile, "\t@%s ", m->app);
 		#endif
 		fprintf(makefile, "$(HEAD) $(CODE) ");
-		
-		fprintf(makefile, "%s.c ", m->main);
+		if(m->gppMode)
+			fprintf(makefile, "%s.cpp ", m->main);
+		else
+			fprintf(makefile, "%s.c ", m->main);
 		#ifdef __linux__
 		fprintf(makefile, "&\n");
 		#endif
@@ -303,13 +349,20 @@ static void make_file(Modele_t *m){
 	fprintf(makefile, "\t@rm -f *.o\n\t@rm -f %s", m->exe);
 
 	fprintf(makefile, "\n\n\n\n");
-	fprintf(makefile, "### gtk version -> gtk+2\n");
+	if(m->gtkMode)
+		fprintf(makefile, "### gtk version -> gtk+2\n");
+	else if(m->gtk3Mode)
+		fprintf(makefile, "### gtk version -> gtk+3\n");
 	#ifdef __APPLE__
 	fprintf(makefile, "### to install gtk with Homebrew [https://brew.sh/index_fr]\n");
 	fprintf(makefile, "### -> (brew install gtk+)\n");
 	#else 
 	fprintf(makefile, "### to install gtk\n");
-	fprintf(makefile, "### -> (apt-get install gtk+2)\n");
+	if(m->gtkMode)
+		fprintf(makefile, "### -> (apt-get install gtk+2)\n");
+	else if(m->gtk3Mode)
+		fprintf(makefile, "### -> (apt-get install gtk+3)\n");
+
 	#endif
 	fprintf(makefile, "### made with auto-makefile ");
 	#ifdef __APPLE__
@@ -342,7 +395,13 @@ static int exist_files(Modele_t *m){
 	long k = strlen(m->main);
 	m->main[k] = '.';
 	m->main[k+1] = 'c';
-	m->main[k+2] = '\0';
+	if(m->gppMode){
+		m->main[k+2] = 'p';
+		m->main[k+3] = 'p';
+		m->main[k+4] = '\0';
+	}
+	else
+		m->main[k+2] = '\0';
 	FILE *fcheck = fopen(m->main, "r");
 	if(!fcheck)
 		return 0;

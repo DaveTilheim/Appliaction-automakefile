@@ -8,14 +8,14 @@
 #define __MODELE__
 
 #define MAX_NEW_F 3
-#define MAXC 20
+#define MAXC 25
 #include "list.h"
 
 #define MAX_LIB 50
 #define MIN_LIB 0
 #define MAXC_CFLAGS 50
 #define MAXC_CHILD 51
-#define N_MODE 8
+#define N_MODE 10
 
 /**
 @struct Modele_t
@@ -37,6 +37,8 @@ typedef struct{
 	char cflags[MAXC_CFLAGS+1]; /*!< cflags of the makefile */
 	int childMode; /*!< cptr who indicates if the childMode is active */
 	char child[MAXC_CHILD+1]; /*!< names of the childs directories */
+	int gtk3Mode;
+	int gppMode;
 
 
 }Modele_t;

@@ -44,6 +44,8 @@ Controleur_t *creer_controleur(Vue_t *v, Modele_t *m){
 	c->entryChild = gtk_entry_new_with_max_length(MAXC_CHILD);
 	c->buttonRapport = gtk_button_new_with_label("create rapport");
 	gtk_widget_set_sensitive(c->buttonRapport, FALSE);
+	c->checkButtonGpp = gtk_check_button_new_with_label("g++ compiler (default gcc)");
+	c->checkButtonGtk3 = gtk_check_button_new_with_label("Gtk+3");
 
 	return c;
 }
@@ -204,6 +206,10 @@ void gtk_mode(GtkWidget *widget, gpointer pData){
 	
 	Controleur_t *c = (Controleur_t *) pData;
 	active_mode(c->m, 1);
+	if(c->m->gtkMode)
+		gtk_widget_set_sensitive(c->checkButtonGtk3, FALSE);
+	else
+		gtk_widget_set_sensitive(c->checkButtonGtk3, TRUE);
 }
 
 void libs_mode(GtkWidget *widget, gpointer pData){
@@ -283,5 +289,24 @@ void child_mode(GtkWidget *widget, gpointer pData){
 		gtk_widget_hide(c->entryChild);
 }
 
+void gtk3_mode(GtkWidget *widget, gpointer pData){
+
+	assert(pData != NULL);
+
+	Controleur_t *c = (Controleur_t *) pData;
+	active_mode(c->m, 9);
+	if(c->m->gtk3Mode)
+		gtk_widget_set_sensitive(c->checkButtonGtkMode, FALSE);
+	else
+		gtk_widget_set_sensitive(c->checkButtonGtkMode, TRUE);
+}
+
+void gpp_mode(GtkWidget *widget, gpointer pData){
+
+	assert(pData != NULL);
+
+	Controleur_t *c = (Controleur_t *) pData;
+	active_mode(c->m, 10);
+}
 
 
