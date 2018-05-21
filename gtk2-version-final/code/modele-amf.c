@@ -223,7 +223,8 @@ static void make_file(Modele_t *m){
 	}
 
 	if(m->gtkMode || m->gtk3Mode)
-		fprintf(makefile, "$(GTKFLAGS)");
+		fprintf(makefile, "$(GTKFLAGS) ");
+	fprintf(makefile, " $(CFLAGS)");
 
 	fprintf(makefile, "\n\t@echo compilation success");
 	fprintf(makefile, "\n\n");
