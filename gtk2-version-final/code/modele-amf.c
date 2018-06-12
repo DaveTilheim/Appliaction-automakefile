@@ -363,31 +363,6 @@ static void make_file(Modele_t *m){
 	fprintf(makefile, "\t@rm -f *.o\n\t@rm -f %s", m->exe);
 
 	fprintf(makefile, "\n\n\n\n");
-	if(m->gtkMode)
-		fprintf(makefile, "### gtk version -> gtk+2\n");
-	else if(m->gtk3Mode)
-		fprintf(makefile, "### gtk version -> gtk+3\n");
-	#ifdef __APPLE__
-	fprintf(makefile, "### to install gtk with Homebrew [https://brew.sh/index_fr]\n");
-	fprintf(makefile, "### -> (brew install gtk+)\n");
-	#else 
-	fprintf(makefile, "### to install gtk\n");
-	if(m->gtkMode)
-		fprintf(makefile, "### -> (apt-get install gtk+2)\n");
-	else if(m->gtk3Mode)
-		fprintf(makefile, "### -> (apt-get install gtk+3)\n");
-
-	#endif
-	fprintf(makefile, "### made with auto-makefile ");
-	#ifdef __APPLE__
-	fprintf(makefile, "mac edition\n");
-	#else
-	fprintf(makefile, "linux edition\n");
-	#endif
-	fprintf(makefile, "### autor Arthur Detrembleur (Appliaction company)\n");
-	
-
-	
 	fclose(makefile);
 }
 
@@ -499,8 +474,6 @@ void make_rapport(Modele_t *m){
 	fclose(frapport);
 
 }
-
-
 
 
 
